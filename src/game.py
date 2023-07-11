@@ -23,7 +23,7 @@ class Game:
             self.player.draw(self.window.screan)
             self.platform.draw(self.window.screan)
             self.event.update()
-            self.player.repeat(self.player, self.platform)
+            self.player.repeat(self.event.key, self.player, self.platform)
 
             pygame.display.update()
 
