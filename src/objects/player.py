@@ -22,7 +22,6 @@ class Player(Physic, Drawable):
         previous_x = self.x
         previous_y = self.y
 
+        self.move(key)
         self.y = self.graphitization(self.y)
         self.collision(player, second_object, previous_x, previous_y)
-
-        self.move(key)
