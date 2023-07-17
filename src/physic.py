@@ -10,7 +10,7 @@ class Physic:
 
     def resset_graphitization_power(self):
         self.graphitization_power = 0
- 
+
     def collision(self, collid_object: object, second_object: object, previous_x: int, previous_y: int) -> None:
         if collid_object.x + collid_object.width >= second_object.x:
             if collid_object.hitbox.colliderect(second_object.hitbox):
@@ -22,6 +22,9 @@ class Physic:
             if collid_object.hitbox.colliderect(second_object.hitbox):
                 collid_object.y = previous_y
                 self.resset_graphitization_power()
+                self.in_air = False
+            else:
+                self.in_air = True
         if collid_object.y <= second_object.y + second_object.height:
             if collid_object.hitbox.colliderect(second_object.hitbox):
                 collid_object.y = previous_y
