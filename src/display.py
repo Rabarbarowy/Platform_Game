@@ -1,4 +1,5 @@
 import pygame
+from pygame import Rect
 
 
 class Drawable:
@@ -19,5 +20,5 @@ class Drawable:
         return self.image.get_height()
 
     @property
-    def hitbox(self):
+    def hitbox(self) -> Rect:
         return pygame.Rect(self.x, self.y, self.width, self.height)

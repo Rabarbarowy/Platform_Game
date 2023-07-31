@@ -13,9 +13,7 @@ class Player(Physic, Drawable):
         self.y = 0
         self.speed = 6
 
-        self.max_jump_height = 100
-        self.min_jump_height = 12
-        self.jump_height = self.min_jump_height
+        self.jump_height = 9
         self.jumping = False
 
     def move(self, key) -> None:
@@ -24,15 +22,12 @@ class Player(Physic, Drawable):
         if key[pygame.K_a]:
             self.x -= self.speed
         if key[pygame.K_SPACE]:
-            self.jumping = True
             self.jump()
-        # else:
-        #     self.jumping = False
 
     def jump(self) -> None:
+        self.graphitization_power -= 0.3
         if not self.in_air:
             self.graphitization_power -= self.jump_height
-            # self.y -= self.jump_height
             self.in_air = True
 
     def repeat(self, key: ScancodeWrapper, player: object, second_object: object) -> None:

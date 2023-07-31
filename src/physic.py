@@ -6,7 +6,7 @@ class Physic:
     def graphitization(self, y: int) -> int:
         if self.in_air:
             y += self.graphitization_power
-            self.graphitization_power += 0.5
+            self.graphitization_power += 0.6
         return y
 
     def resset_graphitization_power(self) -> None:
