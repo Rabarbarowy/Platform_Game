@@ -1,5 +1,6 @@
 import pygame
 from pygame import QUIT
+from pygame.key import ScancodeWrapper
 
 
 class EventManager:
@@ -9,5 +10,5 @@ class EventManager:
                 raise SystemExit
 
     @property
-    def key(self):
+    def key(self) -> ScancodeWrapper:
         return pygame.key.get_pressed()
