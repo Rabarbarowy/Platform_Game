@@ -14,16 +14,18 @@ class Game:
         self.clock = Clock()
         self.event = EventManager()
         self.player = Player()
-        self.platform = Platform()
+        self.platforms = [Platform(330, 400), Platform(50, 400), Platform(450, 500)]
 
     def run_game(self) -> None:
         while True:
             self.clock.tick(60)
             self.window.show()
             self.player.draw(self.window.screan)
-            self.platform.draw(self.window.screan)
+            for platform in self.platforms:
+                platform.draw(self.window.screan)
+
             self.event.update()
-            self.player.repeat(self.event.key, self.player, self.platform)
+            self.player.repeat(self.event.key, self.player, self.platforms)
 
             pygame.display.update()
 

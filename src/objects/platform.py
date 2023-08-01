@@ -4,8 +4,8 @@ from src.display import Drawable
 
 
 class Platform(Drawable):
-    def __init__(self) -> None:
+    def __init__(self, x, y) -> None:
         super().__init__()
         self.image = pygame.image.load('src/assets/images/platform.png')
-        self.x = 330
-        self.y = 400
+        self.x = x
+        self.y = y

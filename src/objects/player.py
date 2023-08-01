@@ -30,9 +30,13 @@ class Player(Physic, Drawable):
             self.graphitization_power -= self.jump_height
             self.in_air = True
 
-    def repeat(self, key: ScancodeWrapper, player: object, second_object: object) -> None:
+    def repeat(self, key: ScancodeWrapper, player, second_objects) -> None:
         previous_x = self.x
 
         self.move(key)
         self.y = self.graphitization(self.y)
-        self.collision(player, second_object, previous_x)
+
+        for every_object in second_objects:
+            self.collision(player, every_object, previous_x)
+            if not self.in_air:
+                break
