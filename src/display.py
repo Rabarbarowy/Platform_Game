@@ -8,8 +8,8 @@ class Drawable:
         self.y = 0
         self.image = pygame.image.load('src/assets/images/brakGrafiki.png')
 
-    def draw(self, screan) -> None:
-        screan.blit(self.image, (self.x, self.y))
+    def draw(self, screan, camera_x: int, camera_y: int) -> None:
+        screan.blit(self.image, (self.x - camera_x, self.y - camera_y))
 
     @property
     def width(self) -> int:
