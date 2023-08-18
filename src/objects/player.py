@@ -16,6 +16,8 @@ class Player(Physic, Drawable):
         self.jump_height = 9
         self.jumping = False
 
+        self.graphitization_index = GraphitizationIndex(self.width, self.height)
+
     def move(self, key) -> None:
         if key[pygame.K_d]:
             self.x += self.speed
@@ -32,11 +34,29 @@ class Player(Physic, Drawable):
 
     def repeat(self, key: ScancodeWrapper, player, second_objects) -> None:
         previous_x = self.x
+        self.graphitization_index.update_position(self.x, self.y)
 
         self.move(key)
         self.y = self.graphitization(self.y)
 
         for every_object in second_objects:
-            self.collision(player, every_object, previous_x)
+            self.collision(player, every_object, previous_x, self.graphitization_index)
             if not self.in_air:
                 break
+
+
+class GraphitizationIndex:
+    def __init__(self, player_width, player_height):
+        self.x = 0
+        self.y = 0
+        self.height = 1
+        self.width = player_width
+        self.player_height = player_height
+
+    def update_position(self, player_x, player_y):
+        self.x = player_x
+        self.y = player_y + self.player_height + 1
+
+    @property
+    def hitbox(self):
+        return pygame.Rect(self.x, self.y, self.width, self.height)

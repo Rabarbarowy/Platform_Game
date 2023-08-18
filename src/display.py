@@ -6,7 +6,7 @@ class Drawable:
     def __init__(self) -> None:
         self.x = 0
         self.y = 0
-        self.image = pygame.image.load('src/assets/images/brakGrafiki.png')
+        self.image = pygame.image.load('src/assets/images/brak_grafiki.png')
 
     def draw(self, screan, camera_x: int, camera_y: int) -> None:
         screan.blit(self.image, (self.x - camera_x, self.y - camera_y))
