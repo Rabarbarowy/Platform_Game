@@ -1,8 +1,10 @@
 import pygame
 from pygame import Rect
 
+from src.sprite import Sprite
 
-class Drawable:
+
+class Drawable(Sprite):
     def __init__(self) -> None:
         self.x = 0
         self.y = 0
