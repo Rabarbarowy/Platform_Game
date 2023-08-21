@@ -33,7 +33,8 @@ class Player(Physic, Drawable):
             self.graphitization_power -= self.jump_height
             self.in_air = True
 
-    def repeat(self, key: ScancodeWrapper, player, second_objects) -> None:
+    def repeat(self, screan, camera_x, camera_y, key: ScancodeWrapper, player, second_objects) -> None:
+        self.draw(screan, camera_x, camera_y)
         previous_x = self.x
         self.graphitization_index.update_position(self.x, self.y)
 

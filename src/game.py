@@ -23,12 +23,19 @@ class Game:
             self.clock.tick(60)
             self.window.show()
             self.camera.update_position(self.player.x, self.player.y)
-            self.player.draw(self.window.screan, self.camera.x, self.camera.y)
             for platform in self.platforms:
                 platform.draw(self.window.screan, self.camera.x, self.camera.y)
 
             self.event.update()
-            self.player.repeat(self.event.key, self.player, self.platforms)
+
+            self.player.repeat(
+                self.window.screan,
+                self.camera.x,
+                self.camera.y,
+                self.event.key,
+                self.player,
+                self.platforms
+            )
 
             pygame.display.update()
 
