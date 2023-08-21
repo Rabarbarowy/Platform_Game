@@ -9,7 +9,7 @@ class Player(Physic, Drawable):
     def __init__(self) -> None:
         super().__init__()
         self.source_image = pygame.image.load('src/assets/images/rabarbarowy.png')
-        self.image = self.transform_size(self.source_image, 128, 128)
+        self.image = self.transform_size(self.source_image, 3)
         self.x = 350
         self.y = 0
         self.speed = 6
