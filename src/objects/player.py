@@ -28,7 +28,8 @@ class Player(Physic, Drawable):
             self.jump()
 
     def jump(self) -> None:
-        self.graphitization_power -= 0.3
+        if not self.graphitization_power >= 0:
+            self.graphitization_power -= 0.3
         if not self.in_air:
             self.graphitization_power -= self.jump_height
             self.in_air = True
