@@ -9,3 +9,4 @@ class Platform(Drawable):
         self.image = pygame.image.load('src/assets/images/platform.png')
         self.x = x
         self.y = y
+        self.frame_position = 0

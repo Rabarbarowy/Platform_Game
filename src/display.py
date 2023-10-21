@@ -10,8 +10,17 @@ class Drawable(Sprite):
         self.y = 0
         self.image = pygame.image.load('src/assets/images/brak_grafiki.png')
 
-    def draw(self, screan, camera_x: int, camera_y: int) -> None:
-        screan.blit(self.image, (self.x - camera_x, self.y - camera_y))
+    def draw(
+        self,
+        screan,
+        camera_x: int,
+        camera_y: int,
+        x_frame_pos: int,
+        y_frame_pos: int,
+        frame_width: int,
+        frame_height: int
+    ) -> None:
+        screan.blit(self.image, (self.x - camera_x, self.y - camera_y), (x_frame_pos, y_frame_pos, frame_width, frame_height))
 
     @property
     def width(self) -> int:

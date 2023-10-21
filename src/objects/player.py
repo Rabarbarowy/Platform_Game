@@ -1,31 +1,61 @@
 import pygame
 from pygame.key import ScancodeWrapper
 
+from src.animation import AnimateSprite
 from src.display import Drawable
 from src.physic import Physic
 
 
-class Player(Physic, Drawable):
+class Player(Physic, Drawable, AnimateSprite):
     def __init__(self) -> None:
         super().__init__()
-        self.source_image = pygame.image.load('src/assets/images/rabarbarowy.png')
-        self.image = self.transform_size(self.source_image, 3)
+        AnimateSprite.__init__(self)
+        self.source_image = self.transform_size(pygame.image.load('src/assets/images/rabarbarowy.png'), 3)
+        self.run_image = self.transform_size(pygame.image.load('src/assets/images/rabarbarowy_run.png'), 3)
+        self.jump_image = self.transform_size(pygame.image.load('src/assets/images/rabarbarowy_jump.png'), 3)
+        self.image = self.source_image
         self.x = 350
         self.y = 0
         self.speed = 6
 
         self.jump_height = 9
         self.jumping = False
+        self.running_right = False
+        self.running_left = False
+        self.direction = 'right'
 
         self.graphitization_index = GraphitizationIndex(self.width, self.height)
 
     def move(self, key) -> None:
         if key[pygame.K_d]:
+            self.direction = 'right'
+            self.running_right = True
             self.x += self.speed
+            if not self.in_air:
+                self.image = self.run_image
+            else:
+                self.running_right = False
+        else:
+            self.running_right = False
+
         if key[pygame.K_a]:
+            self.direction = 'left'
+            self.running_left = True
             self.x -= self.speed
+            if not self.in_air:
+                self.image = self.run_image
+            else:
+                self.running_left = False
+        else:
+            self.running_left = False
+
         if key[pygame.K_SPACE]:
             self.jump()
+
+        if not self.running_right and not self.running_left:
+            self.image = self.source_image
+
+        self.direction_of_player()
 
     def jump(self) -> None:
         if not self.graphitization_power >= 0:
@@ -34,8 +64,15 @@ class Player(Physic, Drawable):
             self.graphitization_power -= self.jump_height
             self.in_air = True
 
+    def direction_of_player(self):
+        if self.direction == 'right':
+            self.image = pygame.transform.flip(self.image, False, False)
+        elif self.direction == 'left':
+            self.image = pygame.transform.flip(self.image, True, False)
+
     def repeat(self, screan, camera_x, camera_y, key: ScancodeWrapper, player, second_objects) -> None:
-        self.draw(screan, camera_x, camera_y)
+        position_of_frame = self.animation(self.image, [96, 96])
+        self.draw(screan, camera_x, camera_y, position_of_frame[0], position_of_frame[1], 96, 96)
         previous_x = self.x
         self.graphitization_index.update_position(self.x, self.y)
 
