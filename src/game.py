@@ -16,7 +16,7 @@ class Game:
         self.clock = Clock()
         self.event = EventManager()
         self.player = Player()
-        self.platforms = [Platform(330, 400), Platform(50, 400), Platform(450, 500), Platform(640, 400)]
+        self.platforms = [Platform(290, 400), Platform(-100, 400), Platform(640, 500), Platform(940, 400)]
 
     def run_game(self) -> None:
         while True:
@@ -24,15 +24,7 @@ class Game:
             self.window.show()
             self.camera.update_position(self.player.x, self.player.y)
             for platform in self.platforms:
-                platform.draw(
-                    self.window.screan,
-                    self.camera.x,
-                    self.camera.y,
-                    platform.frame_position,
-                    platform.frame_position,
-                    platform.width,
-                    platform.height
-                )
+                platform.draw(self.window.screan, self.camera.x, self.camera.y,)
 
             self.event.update()
 

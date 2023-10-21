@@ -24,7 +24,7 @@ class Player(Physic, Drawable, AnimateSprite):
         self.running_left = False
         self.direction = 'right'
 
-        self.graphitization_index = GraphitizationIndex(self.width, self.height)
+        self.gravitation_index = GravitationIndex(self.width, self.height)
 
     def move(self, key) -> None:
         if key[pygame.K_d]:
@@ -58,10 +58,10 @@ class Player(Physic, Drawable, AnimateSprite):
         self.direction_of_player()
 
     def jump(self) -> None:
-        if not self.graphitization_power >= 0:
-            self.graphitization_power -= 0.3
+        if not self.gravitation_power >= 0:
+            self.gravitation_power -= 0.3
         if not self.in_air:
-            self.graphitization_power -= self.jump_height
+            self.gravitation_power -= self.jump_height
             self.in_air = True
 
     def direction_of_player(self):
@@ -72,20 +72,23 @@ class Player(Physic, Drawable, AnimateSprite):
 
     def repeat(self, screan, camera_x, camera_y, key: ScancodeWrapper, player, second_objects) -> None:
         position_of_frame = self.animation(self.image, [96, 96])
-        self.draw(screan, camera_x, camera_y, position_of_frame[0], position_of_frame[1], 96, 96)
+        self.image = self.cut_image_part(self.image, position_of_frame[0], position_of_frame[1], 96, 96)
+
+        self.draw(screan, camera_x, camera_y)
+
         previous_x = self.x
-        self.graphitization_index.update_position(self.x, self.y)
+        self.gravitation_index.update_position(self.x, self.y)
 
         self.move(key)
-        self.y = self.graphitization(self.y)
+        self.y = self.gravitation(self.y)
 
         for every_object in second_objects:
-            self.collision(player, every_object, previous_x, self.graphitization_index)
+            self.collision(player, every_object, previous_x, self.gravitation_index)
             if not self.in_air:
                 break
 
 
-class GraphitizationIndex:
+class GravitationIndex:
     def __init__(self, player_width, player_height):
         self.x = 0
         self.y = 0
