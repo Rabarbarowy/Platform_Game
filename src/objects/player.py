@@ -71,8 +71,6 @@ class Player(Physic, Drawable, AnimateSprite):
             self.image = pygame.transform.flip(self.image, True, False)
 
     def repeat(self, screan, camera_x, camera_y, key: ScancodeWrapper, player, second_objects) -> None:
-        position_of_frame = self.animation(self.image, [96, 96])
-        self.image = self.cut_image_part(self.image, position_of_frame[0], position_of_frame[1], 96, 96)
 
         self.draw(screan, camera_x, camera_y)
 
@@ -80,6 +78,7 @@ class Player(Physic, Drawable, AnimateSprite):
         self.gravitation_index.update_position(self.x, self.y)
 
         self.move(key)
+        self.image = self.animation(self.image, [96, 96])
         self.y = self.gravitation(self.y)
 
         for every_object in second_objects:

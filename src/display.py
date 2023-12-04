@@ -10,10 +10,6 @@ class Drawable(Sprite):
         self.y = 0
         self.image = pygame.image.load('src/assets/images/brak_grafiki.png')
 
-    def cut_image_part(self, image, x_frame_pos: int, y_frame_pos: int, frame_width: int, frame_height: int):
-        cropped_image = image.subsurface((x_frame_pos, y_frame_pos, frame_width, frame_height))
-        return cropped_image
-
     def draw(self, screan, camera_x: int, camera_y: int,) -> None:
         screan.blit(self.image, (self.x - camera_x, self.y - camera_y))
 
