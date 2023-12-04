@@ -16,7 +16,7 @@ class Game:
         self.clock = Clock()
         self.event = EventManager()
         self.player = Player()
-        self.platforms = [Platform(290, 400), Platform(-100, 400), Platform(640, 500), Platform(940, 400), Platform(800, 600)]
+        self.platforms = [Platform(290, 400), Platform(-100, 400), Platform(640, 500), Platform(1000, 400), Platform(830, 600)]
 
     def run_game(self) -> None:
         while True:

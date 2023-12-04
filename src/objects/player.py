@@ -52,6 +52,9 @@ class Player(Physic, Drawable, AnimateSprite):
         if key[pygame.K_SPACE]:
             self.jump()
 
+        if self.gravitation_power >= 0:
+            self.jumping = False
+
         if not self.running_right and not self.running_left:
             self.image = self.source_image
 
@@ -63,6 +66,7 @@ class Player(Physic, Drawable, AnimateSprite):
         if not self.in_air:
             self.gravitation_power -= self.jump_height
             self.in_air = True
+            self.jumping = True
 
     def direction_of_player(self):
         if self.direction == 'right':
@@ -80,9 +84,8 @@ class Player(Physic, Drawable, AnimateSprite):
         self.move(key)
         self.image = self.animation(self.image, [96, 96])
         self.y = self.gravitation(self.y)
-
         for every_object in second_objects:
-            self.collision(player, every_object, previous_x, self.gravitation_index)
+            self.collision(player, every_object, previous_x, self.gravitation_index, self.jumping)
             if not self.in_air:
                 break
 
