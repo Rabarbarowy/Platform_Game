@@ -12,16 +12,20 @@ class Player(Physic, Drawable, AnimateSprite):
         AnimateSprite.__init__(self)
         self.source_image = self.transform_size(pygame.image.load('src/assets/images/rabarbarowy.png'), 3)
         self.run_image = self.transform_size(pygame.image.load('src/assets/images/rabarbarowy_run.png'), 3)
-        self.jump_image = self.transform_size(pygame.image.load('src/assets/images/rabarbarowy_jump.png'), 3)
+        self.jumping_image = self.transform_size(pygame.image.load('src/assets/images/rabarbarowy_jumping.png'), 3)
+        self.falling_iamge = self.transform_size(pygame.image.load('src/assets/images/rabarbarowy_falling.png'), 3)
         self.image = self.source_image
+
         self.x = 350
         self.y = 0
         self.speed = 6
-
         self.jump_height = 9
+
         self.jumping = False
+        self.falling = False
         self.running_right = False
         self.running_left = False
+
         self.direction = 'right'
 
         self.gravitation_index = GravitationIndex(self.width, self.height)
@@ -54,9 +58,17 @@ class Player(Physic, Drawable, AnimateSprite):
 
         if self.gravitation_power >= 0:
             self.jumping = False
+            if self.in_air:
+                self.falling = True
+            else:
+                self.falling = False
 
-        if not self.running_right and not self.running_left:
+        if not self.running_right and not self.running_left and not self.jumping and not self.falling:
             self.image = self.source_image
+        elif self.jumping:
+            self.image = self.jumping_image
+        elif self.falling:
+            self.image = self.falling_iamge
 
         self.direction_of_player()
 
