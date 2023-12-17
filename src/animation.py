@@ -2,7 +2,7 @@ from src.sprite import Sprite
 
 
 class AnimateSprite(Sprite):
-    def __init__(self):
+    def __init__(self) -> None:
         self.width_index = 0
         self.height_index = 0
         self.animation_speed = 6

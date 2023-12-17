@@ -6,7 +6,7 @@ from src.display import Drawable
 from src.physic import Physic
 
 
-class Player(Physic, Drawable, AnimateSprite):
+class Player(Physic, Drawable):
     def __init__(self) -> None:
         super().__init__()
         AnimateSprite.__init__(self)
@@ -86,9 +86,9 @@ class Player(Physic, Drawable, AnimateSprite):
         elif self.direction == 'left':
             self.image = pygame.transform.flip(self.image, True, False)
 
-    def repeat(self, screan, camera_x, camera_y, key: ScancodeWrapper, player, second_objects) -> None:
+    def repeat(self, screan, camera_x: int, camera_y: int, key: ScancodeWrapper, player, second_objects) -> None:
 
-        self.draw(screan, camera_x, camera_y)
+        self.draw(screan, camera_x, camera_y, False)
 
         previous_x = self.x
         self.gravitation_index.update_position(self.x, self.y)
