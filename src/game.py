@@ -10,6 +10,7 @@ from src.scenes.scene import Scene
 
 class Game:
     platform = pygame.image.load('src/assets/images/platform.png')
+    platform2 = pygame.image.load('src/assets/images/platform2.png')
     heart = pygame.image.load('src/assets/images/heart.png')
     life_bar = pygame.image.load('src/assets/images/life_bar.png')
 
@@ -28,11 +29,13 @@ class Game:
         self.life_bars.append(VisibleObject(self.life_bars[0].x + self.life_bars[0].width - 23, self.camera.y - self.player.y + 20, self.life_bar, 2))
 
         self.platforms = [
-            VisibleObject(290, 400, self.platform, 3),
+            VisibleObject(290, 300, self.platform, 3),
+            VisibleObject(-300, 500, self.platform, 3),
             VisibleObject(-100, 400, self.platform, 3),
             VisibleObject(640, 500, self.platform, 3),
+            VisibleObject(830, 450, self.platform, 3),
             VisibleObject(1000, 400, self.platform, 3),
-            VisibleObject(830, 600, self.platform, 3)
+            VisibleObject(1200, 350, self.platform, 3),
         ]
 
     def run_game(self) -> None:

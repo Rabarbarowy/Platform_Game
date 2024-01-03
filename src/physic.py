@@ -13,10 +13,9 @@ class Physic:
         self.gravitation_power = 0
 
     def collision(self, collid_object, second_object, previous_x: int, gravitation_index, jumping) -> None:
-        if collid_object.x + collid_object.width >= second_object.x:  # from right
-            if collid_object.hitbox.colliderect(second_object.hitbox):
+        if collid_object.hitbox.colliderect(second_object.hitbox):
+            if collid_object.x + collid_object.width >= second_object.x:  # from right
                 collid_object.x = previous_x
-        if collid_object.x <= second_object.x + second_object.width:  # from left
             if collid_object.hitbox.colliderect(second_object.hitbox):
                 collid_object.x = previous_x
         if collid_object.y + collid_object.height >= second_object.y and not jumping:  # from up

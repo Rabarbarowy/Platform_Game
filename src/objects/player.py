@@ -19,7 +19,7 @@ class Player(Physic, Drawable):
         self.x = 350
         self.y = 0
         self.speed = 6
-        self.jump_height = 9
+        self.jump_height = 8
 
         self.jumping = False
         self.falling = False
@@ -86,6 +86,16 @@ class Player(Physic, Drawable):
         elif self.direction == 'left':
             self.image = pygame.transform.flip(self.image, True, False)
 
+    def check_collision(self, player, second_objects, previous_x):
+        on_something = False
+        for every_object in second_objects:
+            self.collision(player, every_object, previous_x, self.gravitation_index, self.jumping)
+            if not self.in_air:
+                on_something = True
+
+        if on_something:
+            self.in_air = False
+
     def repeat(self, screan, camera_x: int, camera_y: int, key: ScancodeWrapper, player, second_objects) -> None:
 
         self.draw(screan, camera_x, camera_y, False)
@@ -96,10 +106,8 @@ class Player(Physic, Drawable):
         self.move(key)
         self.image = self.animation(self.image, [96, 96])
         self.y = self.gravitation(self.y)
-        for every_object in second_objects:
-            self.collision(player, every_object, previous_x, self.gravitation_index, self.jumping)
-            if not self.in_air:
-                break
+
+        self.check_collision(player, second_objects, previous_x)
 
 
 class GravitationIndex:
