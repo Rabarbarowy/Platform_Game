@@ -20,10 +20,20 @@ class Heart(VisibleObject):
 
     def heart_beating(self, number_of_life_bars):
         self.beating_index += 1
-        if number_of_life_bars == 2:
+        if number_of_life_bars == 1:
             self.image = self.animation(self.source_image, [64, 64])
 
         elif self.beating_index <= 36:
             self.image = self.animation(self.source_image, [64, 64])
         if self.beating_index > 70:
             self.beating_index = 0
+
+#
+# class Spike(VisibleObject):
+#     def __init__(self, x: int, y: int, image, size_index: int) -> None:
+#         super().__init__(x=x, y=y, image=image, size_index=size_index)
+#         self.dmg = 1
+#
+#     def attacking(self, enemy):
+#         if enemy.hitbox.colliderect(self.hitbox):
+#             pass

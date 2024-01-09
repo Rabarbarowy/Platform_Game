@@ -3,11 +3,11 @@ import pygame
 
 class Scene:
     def __init__(self) -> None:
-        self.WITDH = 800
+        self.WIDTH = 800
         self.HEIGHT = 600
 
         self.back_ground_color = (234, 212, 252)
-        self.screan = pygame.display.set_mode((self.WITDH, self.HEIGHT))
+        self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
 
     def show(self) -> None:
-        self.screan.fill(self.back_ground_color)
+        self.screen.fill(self.back_ground_color)

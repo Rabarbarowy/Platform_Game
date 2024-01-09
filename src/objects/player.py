@@ -3,32 +3,51 @@ from pygame.key import ScancodeWrapper
 
 from src.animation import AnimateSprite
 from src.display import Drawable
+from src.objects.objects import VisibleObject, Heart
 from src.physic import Physic
 
 
 class Player(Physic, Drawable):
-    def __init__(self) -> None:
+    def __init__(self, camera_y) -> None:
         super().__init__()
         AnimateSprite.__init__(self)
+        # Images
         self.source_image = self.transform_size(pygame.image.load('src/assets/images/rabarbarowy.png'), 3)
         self.run_image = self.transform_size(pygame.image.load('src/assets/images/rabarbarowy_run.png'), 3)
         self.jumping_image = self.transform_size(pygame.image.load('src/assets/images/rabarbarowy_jumping.png'), 3)
         self.falling_iamge = self.transform_size(pygame.image.load('src/assets/images/rabarbarowy_falling.png'), 3)
         self.image = self.source_image
 
+        self.life_element = pygame.image.load('src/assets/images/life_element.png')
+
+        # Coordinates Properties
         self.x = 350
         self.y = 0
+
+        # Statistics Property
         self.speed = 6
         self.jump_height = 8
 
+        # Action Status
         self.jumping = False
         self.falling = False
         self.running_right = False
         self.running_left = False
 
+        # Direction
         self.direction = 'right'
 
         self.gravitation_index = GravitationIndex(self.width, self.height)
+
+        # HP properties
+        self.hp = 3
+        self.max_hp = 6
+        self.life_bar = [
+            Heart(self.x - 300, camera_y - self.y + 20)
+        ]
+        self.life_bar[0].heart_beating(len(self.life_bar))
+        for i in range(self.max_hp):
+            self.life_bar.append(VisibleObject(self.life_bar[-1].x + self.life_bar[-1].width, camera_y - self.y + 20, self.life_element, 2))
 
     def move(self, key) -> None:
         if key[pygame.K_d]:
@@ -80,13 +99,13 @@ class Player(Physic, Drawable):
             self.in_air = True
             self.jumping = True
 
-    def direction_of_player(self):
+    def direction_of_player(self) -> None:
         if self.direction == 'right':
             self.image = pygame.transform.flip(self.image, False, False)
         elif self.direction == 'left':
             self.image = pygame.transform.flip(self.image, True, False)
 
-    def check_collision(self, player, second_objects, previous_x):
+    def check_collision(self, player, second_objects, previous_x: int) -> None:
         on_something = False
         for every_object in second_objects:
             self.collision(player, every_object, previous_x, self.gravitation_index, self.jumping)
@@ -96,9 +115,19 @@ class Player(Physic, Drawable):
         if on_something:
             self.in_air = False
 
-    def repeat(self, screan, camera_x: int, camera_y: int, key: ScancodeWrapper, player, second_objects) -> None:
+    def show_hp(self, screen,):
+        index = 0
+        self.life_bar[0].heart_beating(self.hp)
+        for element in self.life_bar:
+            element.draw(screen, element.x, element.y, True)
+            index += 1
+            if index == self.hp:
+                break
 
-        self.draw(screan, camera_x, camera_y, False)
+    def repeat(self, screen, camera_x: int, camera_y: int, key: ScancodeWrapper, player, second_objects) -> None:
+
+        self.draw(screen, camera_x, camera_y, False)
+        self.show_hp(screen)
 
         previous_x = self.x
         self.gravitation_index.update_position(self.x, self.y)

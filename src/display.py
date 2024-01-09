@@ -13,11 +13,11 @@ class Drawable(AnimateSprite):
         self.y = 0
         self.image = pygame.image.load('src/assets/images/brak_grafiki.png')
 
-    def draw(self, screan, camera_x: int, camera_y: int, static: bool) -> None:
+    def draw(self, screen, camera_x: int, camera_y: int, static: bool) -> None:
         if not static:
-            screan.blit(self.image, (self.x - camera_x, self.y - camera_y))
+            screen.blit(self.image, (self.x - camera_x, self.y - camera_y))
         else:
-            screan.blit(self.image, (camera_x, camera_y))
+            screen.blit(self.image, (camera_x, camera_y))
 
     @property
     def width(self) -> int:
