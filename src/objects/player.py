@@ -27,21 +27,25 @@ class Player(Physic, Drawable):
         # Statistics Property
         self.speed = 6
         self.jump_height = 8
+        self.invisible_time = 0
 
         # Action Status
         self.jumping = False
         self.falling = False
         self.running_right = False
         self.running_left = False
+        self.attacked = False
+        self.invisible = False
 
         # Direction
         self.direction = 'right'
 
         self.gravitation_index = GravitationIndex(self.width, self.height)
 
-        # HP properties
-        self.hp = 3
+        # HP Properties
+        self.hp = 6
         self.max_hp = 6
+        self.immortal_time = 0
         self.life_bar = [
             Heart(self.x - 300, camera_y - self.y + 20)
         ]
@@ -115,7 +119,7 @@ class Player(Physic, Drawable):
         if on_something:
             self.in_air = False
 
-    def show_hp(self, screen,):
+    def show_hp(self, screen):
         index = 0
         self.life_bar[0].heart_beating(self.hp)
         for element in self.life_bar:
@@ -124,9 +128,23 @@ class Player(Physic, Drawable):
             if index == self.hp:
                 break
 
-    def repeat(self, screen, camera_x: int, camera_y: int, key: ScancodeWrapper, player, second_objects) -> None:
+    def immortal(self):
+        if self.attacked:
+            self.immortal_time += 1
+            self.invisible_time += 1
+            if self.invisible_time == 5:
+                self.invisible = True
+            if self.invisible_time == 10:
+                self.invisible = False
+                self.invisible_time = 0
+            if self.immortal_time == 80:
+                self.immortal_time = 0
+                self.attacked = False
 
-        self.draw(screen, camera_x, camera_y, False)
+    def repeat(self, screen, camera_x: int, camera_y: int, key: ScancodeWrapper, player, second_objects) -> None:
+        self.immortal()
+        if not self.invisible:
+            self.draw(screen, camera_x, camera_y, False)
         self.show_hp(screen)
 
         previous_x = self.x

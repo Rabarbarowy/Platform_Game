@@ -3,7 +3,7 @@ from pygame.time import Clock
 
 from src.camera.camera import Camera
 from src.events import EventManager
-from src.objects.objects import VisibleObject
+from src.objects.objects import VisibleObject, Spike
 from src.objects.player import Player
 from src.scenes.scene import Scene
 
@@ -11,6 +11,7 @@ from src.scenes.scene import Scene
 class Game:
     platform = pygame.image.load('src/assets/images/platform.png')
     platform2 = pygame.image.load('src/assets/images/platform2.png')
+    spike = pygame.image.load('src/assets/images/spikes.png')
 
     def __init__(self) -> None:
         pygame.init()
@@ -30,6 +31,10 @@ class Game:
             VisibleObject(1200, 350, self.platform2, 3),
         ]
 
+        self.spikes = [
+            Spike(640, 479, self.spike, 3)
+        ]
+
     def run_game(self) -> None:
         while True:
             self.clock.tick(60)
@@ -38,6 +43,10 @@ class Game:
 
             for platform in self.platforms:
                 platform.draw(self.window.screen, self.camera.x, self.camera.y, False)
+
+            for spike in self.spikes:
+                spike.draw(self.window.screen, self.camera.x, self.camera.y, False)
+                spike.attacking(self.player)
 
             self.event.update()
 
