@@ -8,7 +8,7 @@ from src.physic import Physic
 
 
 class Player(Physic, Drawable):
-    def __init__(self, camera_y) -> None:
+    def __init__(self, initial_coordinates: list, camera_y: int) -> None:
         super().__init__()
         AnimateSprite.__init__(self)
         # Images
@@ -21,8 +21,10 @@ class Player(Physic, Drawable):
         self.life_element = pygame.image.load('src/assets/images/life_element.png')
 
         # Coordinates Properties
-        self.x = 350
-        self.y = 0
+        self.start_x = initial_coordinates[0]
+        self.start_y = initial_coordinates[1]
+        self.x = self.start_x
+        self.y = self.start_y
 
         # Statistics Property
         self.speed = 6
@@ -43,7 +45,8 @@ class Player(Physic, Drawable):
         self.gravitation_index = GravitationIndex(self.width, self.height)
 
         # HP Properties
-        self.hp = 6
+        self.start_hp = 3
+        self.hp = self.start_hp
         self.max_hp = 6
         self.immortal_time = 0
         self.life_bar = [
@@ -141,6 +144,18 @@ class Player(Physic, Drawable):
                 self.immortal_time = 0
                 self.attacked = False
 
+    def die(self):
+        if self.hp == 0:
+            self.hp = self.start_hp
+            self.x = self.start_x
+            self.y = self.start_y
+            self.in_air = True
+
+        if self.y >= 1000:
+            self.hp -= 1
+            self.y = self.start_y
+            self.gravitation_power = 1
+
     def repeat(self, screen, camera_x: int, camera_y: int, key: ScancodeWrapper, player, second_objects) -> None:
         self.immortal()
         if not self.invisible:
@@ -155,6 +170,7 @@ class Player(Physic, Drawable):
         self.y = self.gravitation(self.y)
 
         self.check_collision(player, second_objects, previous_x)
+        self.die()
 
 
 class GravitationIndex:

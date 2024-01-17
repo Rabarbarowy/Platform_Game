@@ -19,7 +19,7 @@ class Game:
         self.camera = Camera()
         self.clock = Clock()
         self.event = EventManager()
-        self.player = Player(self.camera.y)
+        self.player = Player([350, 0], self.camera.y)
 
         self.platforms = [
             VisibleObject(290, 300, self.platform, 3),
