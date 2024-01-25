@@ -41,6 +41,7 @@ class Player(Physic, Drawable):
 
         # Direction
         self.direction = 'right'
+        self.direction_index = self.x - self.start_x
 
         self.gravitation_index = GravitationIndex(self.width, self.height)
 
@@ -97,6 +98,7 @@ class Player(Physic, Drawable):
             self.image = self.falling_iamge
 
         self.direction_of_player()
+        self.direction_index = (self.x - self.start_x) / 2
 
     def jump(self) -> None:
         if not self.gravitation_power >= 0:
@@ -174,14 +176,14 @@ class Player(Physic, Drawable):
 
 
 class GravitationIndex:
-    def __init__(self, player_width, player_height):
+    def __init__(self, player_width: int, player_height: int) -> None:
         self.x = 0
         self.y = 0
         self.height = 1
         self.width = player_width
         self.player_height = player_height
 
-    def update_position(self, player_x, player_y):
+    def update_position(self, player_x: int, player_y: int) -> None:
         self.x = player_x
         self.y = player_y + self.player_height + 1
 

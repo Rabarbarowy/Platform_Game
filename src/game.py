@@ -2,6 +2,7 @@ import pygame
 from pygame.time import Clock
 
 from src.camera.camera import Camera
+from src.constants import INITIAL_COORDINATES
 from src.events import EventManager
 from src.objects.objects import VisibleObject, Spike
 from src.objects.player import Player
@@ -16,10 +17,10 @@ class Game:
     def __init__(self) -> None:
         pygame.init()
         self.window = Scene()
-        self.camera = Camera()
+        self.camera = Camera(INITIAL_COORDINATES[0])
         self.clock = Clock()
         self.event = EventManager()
-        self.player = Player([350, 0], self.camera.y)
+        self.player = Player(INITIAL_COORDINATES, self.camera.y)
 
         self.platforms = [
             VisibleObject(290, 300, self.platform, 3),
@@ -38,8 +39,8 @@ class Game:
     def run_game(self) -> None:
         while True:
             self.clock.tick(60)
-            self.window.show()
             self.camera.update_position(self.player.x, self.player.y)
+            self.window.show(self.player.direction_index)
 
             for platform in self.platforms:
                 platform.draw(self.window.screen, self.camera.x, self.camera.y, False)
