@@ -98,7 +98,7 @@ class Player(Physic, Drawable):
             self.image = self.falling_iamge
 
         self.direction_of_player()
-        self.direction_index = (self.x - self.start_x) / 2
+        self.direction_index = (self.x - self.start_x) / 8
 
     def jump(self) -> None:
         if not self.gravitation_power >= 0:

@@ -18,11 +18,11 @@ class Scene:
     def show(self, direction_index) -> None:
         self.screen.fill(self.background_color)
         if direction_index + 250 + WINDOW_WIDTH >= self.background.width:
-            self.screen.blit(self.background_image, (-self.background.width + WINDOW_WIDTH, 0))
+            self.screen.blit(self.background_image.convert(), (-self.background.width + WINDOW_WIDTH, 0))
         elif direction_index + 250 <= 0:
-            self.screen.blit(self.background_image, (0, 0))
+            self.screen.blit(self.background_image.convert(), (0, 0))
         else:
-            self.screen.blit(self.background_image, (-direction_index - 250, 0))
+            self.screen.blit(self.background_image.convert(), (-direction_index - 250, 0))
 
 
 class Background(Sprite):
