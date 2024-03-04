@@ -6,6 +6,7 @@ from src.constants import INITIAL_COORDINATES
 from src.events import EventManager
 from src.objects.objects import VisibleObject, Spike
 from src.objects.player import Player
+from src.scenes.levels import FirstLevel
 from src.scenes.menu import Menu
 from src.scenes.window import Scene
 
@@ -42,7 +43,13 @@ class Game:
             self.clock.tick(60)
             self.camera.update_position(self.player.x, self.player.y)
             self.window.show(self.player.direction_index, self.camera.x, self.camera.y)
-            self.window.repeat()
+            self.window.repeat(self.player)
+
+            if self.window.view != self.window.old_view:
+                if self.window.view == 'menu':
+                    self.window = Menu()
+                elif self.window.view == 'level1':
+                    self.window = FirstLevel()
 
             # for platform in self.platforms:
             #     platform.draw(self.window.screen, self.camera.x, self.camera.y, False)

@@ -21,6 +21,7 @@ class FirstLevel(Scene):
             VisibleObject(640, 500, platform, 3, True),
             VisibleObject(1000, 400, platform, 3, True),
             VisibleObject(1200, 350, platform2, 3, True),
-
+        ]
+        self.hostile_objects = [
             Spike(640, 479, spike, 3),
         ]

@@ -14,9 +14,13 @@ class Scene:
         self.background_color = (234, 212, 252)
         self.background_image = self.background.img
         self.screen = pygame.display.set_mode((self.width, self.height))
+        self.old_view = 'menu'
+        self.view = self.old_view
 
         self.draw_player = True
         self.objects_to_draw = []
+        self.hostile_objects = []
+        self.buttons = []
 
     def show(self, direction_index: int, camera_x: int, camera_y: int) -> None:
         self.screen.fill(self.background_color)
@@ -29,6 +33,22 @@ class Scene:
 
         for element in self.objects_to_draw:
             element.draw(self.screen, camera_x, camera_y, False)
+        for element in self.hostile_objects:
+            element.draw(self.screen, camera_x, camera_y, False)
+
+    def repeat(self, player) -> None:
+        for element in self.hostile_objects:
+            element.action(player)
+
+        self.old_view = self.view
+        for button in self.buttons:
+            button.draw(self.screen, button.x, button.y, True)
+            button.click()
+            if button.clicked:
+                if button.name == 'play':
+                    self.view = 'level1'
+                elif button.name == 'exit':
+                    raise SystemExit
 
 
 class Background(Sprite):

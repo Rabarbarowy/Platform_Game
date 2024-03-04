@@ -35,7 +35,7 @@ class Spike(VisibleObject):
         super().__init__(x=x, y=y, image=image, size_index=size_index, collision=False)
         self.dmg = 1
 
-    def attacking(self, enemy) -> None:
+    def action(self, enemy) -> None:
         if enemy.hitbox.colliderect(self.hitbox):
             if not enemy.attacked:
                 enemy.attacked = True
