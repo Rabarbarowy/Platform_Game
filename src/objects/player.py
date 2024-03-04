@@ -55,9 +55,9 @@ class Player(Physic, Drawable):
         ]
         self.life_bar[0].heart_beating(len(self.life_bar))
         for i in range(self.max_hp):
-            self.life_bar.append(VisibleObject(self.life_bar[-1].x + self.life_bar[-1].width, camera_y - self.y + 20, self.life_element, 2))
+            self.life_bar.append(VisibleObject(self.life_bar[-1].x + self.life_bar[-1].width, camera_y - self.y + 20, self.life_element, 2, collision=False))
 
-    def move(self, key) -> None:
+    def move(self, key: ScancodeWrapper) -> None:
         if key[pygame.K_d]:
             self.direction = 'right'
             self.running_right = True
@@ -117,7 +117,8 @@ class Player(Physic, Drawable):
     def check_collision(self, player, second_objects, previous_x: int) -> None:
         on_something = False
         for every_object in second_objects:
-            self.collision(player, every_object, previous_x, self.gravitation_index, self.jumping)
+            if every_object.collision:
+                self.collision(player, every_object, previous_x, self.gravitation_index, self.jumping)
             if not self.in_air:
                 on_something = True
 
@@ -157,6 +158,7 @@ class Player(Physic, Drawable):
             self.hp -= 1
             self.y = self.start_y
             self.gravitation_power = 1
+            self.attacked = True
 
     def repeat(self, screen, camera_x: int, camera_y: int, key: ScancodeWrapper, player, second_objects) -> None:
         self.immortal()

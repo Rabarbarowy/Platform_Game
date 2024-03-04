@@ -10,6 +10,8 @@ color = (234, 212, 252)
 
 while True:
     for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            print('elo')
         if event.type == QUIT:
             raise SystemExit
 
