@@ -4,10 +4,25 @@ from pygame.key import ScancodeWrapper
 
 
 class EventManager:
-    def update(self) -> None:
+    def __init__(self):
+        self.paused = False
+        self.clicked = False
+
+    def update(self, scene: str) -> None:
         for event in pygame.event.get():
             if event.type == QUIT:
                 raise SystemExit
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                self.clicked = True
+            else:
+                self.clicked = False
+
+            if scene != 'menu':
+                if event.type == pygame.KEYDOWN and self.key[pygame.K_ESCAPE]:
+                    self.paused = not self.paused
+            else:
+                self.paused = False
 
     @property
     def key(self) -> ScancodeWrapper:

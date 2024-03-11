@@ -8,6 +8,13 @@ screen = pygame.display.set_mode((800, 600))
 color = (234, 212, 252)
 
 
+def fade(width, height):
+    fade = pygame.Surface((width, height))
+    alpha = 100
+    fade.set_alpha(alpha)
+    screen.blit(fade, (0, 0))
+
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -18,5 +25,7 @@ while True:
     screen.fill(color)
     screen.blit(img, (50, 50))
     screen.blit(cropped_img, (50, 100))
+    fade(800, 600)
+    screen.blit(img, (300, 50))
 
     pygame.display.update()

@@ -12,7 +12,7 @@ spike = pygame.image.load('src/assets/images/spikes.png')
 class FirstLevel(Scene):
     def __init__(self):
         super().__init__()
-        
+        self.view = 'level1'
         self.objects_to_draw = [
             VisibleObject(290, 300, platform, 3, True),
             VisibleObject(-300, 500, platform, 3, True),

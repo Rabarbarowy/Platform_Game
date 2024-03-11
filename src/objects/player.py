@@ -125,9 +125,10 @@ class Player(Physic, Drawable):
         if on_something:
             self.in_air = False
 
-    def show_hp(self, screen):
+    def show_hp(self, screen, paused):
         index = 0
-        self.life_bar[0].heart_beating(self.hp)
+        if not paused:
+            self.life_bar[0].heart_beating(self.hp)
         for element in self.life_bar:
             element.draw(screen, element.x, element.y, True)
             index += 1
@@ -160,12 +161,8 @@ class Player(Physic, Drawable):
             self.gravitation_power = 1
             self.attacked = True
 
-    def repeat(self, screen, camera_x: int, camera_y: int, key: ScancodeWrapper, player, second_objects) -> None:
+    def repeat(self, key: ScancodeWrapper, player, second_objects) -> None:
         self.immortal()
-        if not self.invisible:
-            self.draw(screen, camera_x, camera_y, False)
-        self.show_hp(screen)
-
         previous_x = self.x
         self.gravitation_index.update_position(self.x, self.y)
 
@@ -175,6 +172,11 @@ class Player(Physic, Drawable):
 
         self.check_collision(player, second_objects, previous_x)
         self.die()
+
+    def show_player(self, screen, camera_x: int, camera_y: int, paused: bool) -> None:
+        if not self.invisible:
+            self.draw(screen, camera_x, camera_y, False)
+        self.show_hp(screen, paused)
 
 
 class GravitationIndex:
