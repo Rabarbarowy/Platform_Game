@@ -26,7 +26,7 @@ class Game:
                 if self.window.view == 'menu':
                     self.window = Menu()
                 elif self.window.view == 'level1':
-                    # self.player.x, self.player.y = INITIAL_COORDINATES
+                    self.player.reset_statistic()
                     self.window = FirstLevel()
 
             self.clock.tick(60)
@@ -56,5 +56,8 @@ class Game:
                     self.event.paused,
                 )
                 self.window.pause_menu(self.event.clicked)
+                if self.window.pause_index:
+                    self.window.pause_index = False
+                    self.event.paused = False
 
             pygame.display.update()

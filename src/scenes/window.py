@@ -23,8 +23,8 @@ class Scene:
         self.hostile_objects = []
         self.buttons = []
         self.pause_buttons = [
-            # Button(430, 200, pygame.image.load('src/assets/images/play.png'), 'resume'),
-            Button(430, 400, pygame.image.load('src/assets/images/exit.png'), 'menu'),
+            Button(430, 200, pygame.image.load('src/assets/images/resume.png'), 'resume'),
+            Button(430, 400, pygame.image.load('src/assets/images/back.png'), 'menu'),
         ]
 
         self.obfuscate = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -67,7 +67,7 @@ class Scene:
             if button.pressed:
                 if button.name == 'menu':
                     self.view = 'menu'
-                if button.name == 'resume':
+                elif button.name == 'resume':
                     self.pause_index = True
 
 

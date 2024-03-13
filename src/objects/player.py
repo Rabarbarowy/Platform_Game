@@ -21,8 +21,7 @@ class Player(Physic, Drawable):
         self.life_element = pygame.image.load('src/assets/images/life_element.png')
 
         # Coordinates Properties
-        self.start_x = initial_coordinates[0]
-        self.start_y = initial_coordinates[1]
+        self.start_x, self.start_y = initial_coordinates
         self.x = self.start_x
         self.y = self.start_y
 
@@ -46,9 +45,8 @@ class Player(Physic, Drawable):
         self.gravitation_index = GravitationIndex(self.width, self.height)
 
         # HP Properties
-        self.start_hp = 3
-        self.hp = self.start_hp
-        self.max_hp = 6
+        self.max_hp = 3
+        self.hp = self.max_hp
         self.immortal_time = 0
         self.life_bar = [
             Heart(self.x - 300, camera_y - self.y + 20)
@@ -150,7 +148,7 @@ class Player(Physic, Drawable):
 
     def die(self):
         if self.hp == 0:
-            self.hp = self.start_hp
+            self.hp = self.max_hp
             self.x = self.start_x
             self.y = self.start_y
             self.in_air = True
@@ -160,6 +158,17 @@ class Player(Physic, Drawable):
             self.y = self.start_y
             self.gravitation_power = 1
             self.attacked = True
+
+    def reset_statistic(self) -> None:
+        self.x = self.start_x
+        self.y = self.start_y
+        self.hp = self.max_hp
+        self.in_air = True
+        self.invisible = False
+        self.attacked = False
+        self.gravitation_power = 1
+        self.immortal_time = 0
+        self.direction = 'right'
 
     def repeat(self, key: ScancodeWrapper, player, second_objects) -> None:
         self.immortal()
