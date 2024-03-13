@@ -47,9 +47,14 @@ class Button(VisibleObject):
         super().__init__(x=x, y=y, image=img, size_index=3, collision=False)
         self.name = name_of_function
         self.pressed = False
+        self.hovered = False
 
-    def press(self, clicked) -> None:
-        if clicked and self.hitbox.collidepoint(pygame.mouse.get_pos()):
-            self.pressed = True
+    def check_action(self, clicked) -> None:
+        if self.hitbox.collidepoint(pygame.mouse.get_pos()):
+            self.hovered = True
+            if clicked:
+                self.pressed = True
+            else:
+                self.pressed = False
         else:
-            self.pressed = False
+            self.hovered = False

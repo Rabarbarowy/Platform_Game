@@ -10,7 +10,6 @@ from src.scenes.menu import Menu
 
 
 class Game:
-
     def __init__(self) -> None:
         pygame.init()
         self.window = Menu()

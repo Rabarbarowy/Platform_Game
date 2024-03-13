@@ -2,6 +2,7 @@ import pygame
 
 from src.constants import WINDOW_WIDTH, WINDOW_HEIGHT, BACKGROUND_IMAGE
 from src.objects.objects import Button
+from src.objects.player import Player
 from src.sprite import Sprite
 
 
@@ -27,8 +28,6 @@ class Scene:
             Button(430, 400, pygame.image.load('src/assets/images/back.png'), 'menu'),
         ]
 
-        self.obfuscate = pygame.Surface((WINDOW_WIDTH, WINDOW_HEIGHT))
-        self.obfuscate.set_alpha(150)
         self.pause_index = False
 
     def show(self, direction_index: int, camera_x: int, camera_y: int) -> None:
@@ -45,25 +44,34 @@ class Scene:
         for element in self.hostile_objects:
             element.draw(self.screen, camera_x, camera_y, False)
 
-    def repeat(self, player, clicked) -> None:
+    def darken(self, dimensions: tuple, coordinates: tuple) -> None:
+        obfuscate = pygame.Surface(dimensions)
+        obfuscate.set_alpha(150)
+        self.screen.blit(obfuscate, coordinates)
+
+    def repeat(self, player: Player, clicked: bool) -> None:
         for element in self.hostile_objects:
             element.action(player)
 
         self.old_view = self.view
         for button in self.buttons:
             button.draw(self.screen, button.x, button.y, True)
-            button.press(clicked)
+            button.check_action(clicked)
+            if button.hovered:
+                self.darken((button.width, button.height), (button.x, button.y))
             if button.pressed:
                 if button.name == 'play':
                     self.view = 'level1'
                 elif button.name == 'exit':
                     raise SystemExit
 
-    def pause_menu(self, clicked):
-        self.screen.blit(self.obfuscate, (0, 0))
+    def pause_menu(self, clicked: bool) -> None:
+        self.darken((self.width, self.height), (0, 0))
         for button in self.pause_buttons:
             button.draw(self.screen, button.x, button.y, True)
-            button.press(clicked)
+            button.check_action(clicked)
+            if button.hovered:
+                self.darken((button.width, button.height), (button.x, button.y))
             if button.pressed:
                 if button.name == 'menu':
                     self.view = 'menu'
