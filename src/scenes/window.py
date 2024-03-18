@@ -24,8 +24,8 @@ class Scene:
         self.hostile_objects = []
         self.buttons = []
         self.pause_buttons = [
-            Button(430, 200, pygame.image.load('src/assets/images/resume.png'), 'resume'),
-            Button(430, 400, pygame.image.load('src/assets/images/back.png'), 'menu'),
+            Button(430, 200, pygame.image.load('src/assets/images/buttons/resume.png'), 'resume'),
+            Button(430, 400, pygame.image.load('src/assets/images/buttons/back.png'), 'menu'),
         ]
 
         self.pause_index = False

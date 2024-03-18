@@ -10,6 +10,6 @@ class Menu(Scene):
         self.draw_player = False
 
         self.buttons = [
-            Button(430, 200, pygame.image.load('src/assets/images/play.png'), 'play'),
-            Button(430, 500, pygame.image.load('src/assets/images/exit.png'), 'exit'),
+            Button(430, 200, pygame.image.load('src/assets/images/buttons/play.png'), 'play'),
+            Button(430, 500, pygame.image.load('src/assets/images/buttons/exit.png'), 'exit'),
         ]

@@ -12,10 +12,11 @@ class Player(Physic, Drawable):
         super().__init__()
         AnimateSprite.__init__(self)
         # Images
-        self.source_image = self.transform_size(pygame.image.load('src/assets/images/rabarbarowy.png'), 3)
-        self.run_image = self.transform_size(pygame.image.load('src/assets/images/rabarbarowy_run.png'), 3)
-        self.jumping_image = self.transform_size(pygame.image.load('src/assets/images/rabarbarowy_jumping.png'), 3)
-        self.falling_iamge = self.transform_size(pygame.image.load('src/assets/images/rabarbarowy_falling.png'), 3)
+        self.source_image = self.transform_size(pygame.image.load('src/assets/images/player/rabarbarowy.png'), 3)
+        self.run_image = self.transform_size(pygame.image.load('src/assets/images/player/rabarbarowy_run.png'), 3)
+        self.jumping_image = self.transform_size(pygame.image.load('src/assets/images/player/rabarbarowy_jumping.png'), 3)
+        self.falling_image = self.transform_size(pygame.image.load('src/assets/images/player/rabarbarowy_falling.png'), 3)
+        self.dash_image = self.transform_size(pygame.image.load('src/assets/images/player/rabarbarowy_dash.png'), 3)
         self.image = self.source_image
 
         self.life_element = pygame.image.load('src/assets/images/life_element.png')
@@ -27,6 +28,7 @@ class Player(Physic, Drawable):
 
         # Statistics Property
         self.speed = 6
+        self.dash_speed = self.speed * 1.5
         self.jump_height = 8
         self.invisible_time = 0
 
@@ -37,6 +39,11 @@ class Player(Physic, Drawable):
         self.running_left = False
         self.attacked = False
         self.invisible = False
+        self.dashing = False
+
+        self.dash_index = 0
+        self.cooldown = 25
+        self.cooldown_index = self.cooldown
 
         # Direction
         self.direction = 'right'
@@ -88,12 +95,20 @@ class Player(Physic, Drawable):
             else:
                 self.falling = False
 
-        if not self.running_right and not self.running_left and not self.jumping and not self.falling:
+        if key[pygame.K_LSHIFT]:
+            if self.cooldown_index == self.cooldown:
+                self.dash()
+        else:
+            self.dashing = False
+
+        if self.dashing:
+            self.image = self.dash_image
+        elif not self.running_right and not self.running_left and not self.jumping and not self.falling:
             self.image = self.source_image
         elif self.jumping:
             self.image = self.jumping_image
         elif self.falling:
-            self.image = self.falling_iamge
+            self.image = self.falling_image
 
         self.direction_of_player()
         self.direction_index = (self.x - self.start_x) / 8
@@ -105,6 +120,19 @@ class Player(Physic, Drawable):
             self.gravitation_power -= self.jump_height
             self.in_air = True
             self.jumping = True
+
+    def dash(self) -> None:
+        if self.dash_index != 10:
+            self.dashing = True
+            if self.direction == 'right':
+                self.x += self.dash_speed
+            elif self.direction == 'left':
+                self.x -= self.dash_speed
+            self.dash_index += 1
+        else:
+            self.dashing = False
+            self.dash_index = 0
+            self.cooldown_index = 0
 
     def direction_of_player(self) -> None:
         if self.direction == 'right':
@@ -170,22 +198,23 @@ class Player(Physic, Drawable):
         self.immortal_time = 0
         self.direction = 'right'
 
+    def show_player(self, screen, camera_x: int, camera_y: int, paused: bool) -> None:
+        if not self.invisible:
+            self.draw(screen, camera_x, camera_y, False)
+        self.show_hp(screen, paused)
+
     def repeat(self, key: ScancodeWrapper, player, second_objects) -> None:
         self.immortal()
         previous_x = self.x
         self.gravitation_index.update_position(self.x, self.y)
-
         self.move(key)
         self.image = self.animation(self.image, [96, 96])
         self.y = self.gravitation(self.y)
 
         self.check_collision(player, second_objects, previous_x)
         self.die()
-
-    def show_player(self, screen, camera_x: int, camera_y: int, paused: bool) -> None:
-        if not self.invisible:
-            self.draw(screen, camera_x, camera_y, False)
-        self.show_hp(screen, paused)
+        if self.cooldown != self.cooldown_index:
+            self.cooldown_index += 1
 
 
 class GravitationIndex:

@@ -5,15 +5,16 @@ from src.camera.camera import Camera
 from src.constants import INITIAL_COORDINATES
 from src.events import EventManager
 from src.objects.player import Player
-from src.scenes.levels import FirstLevel
+from src.scenes.levels import FirstLevel, SecondLevel
 from src.scenes.menu import Menu
 
 
 class Game:
     def __init__(self) -> None:
         pygame.init()
-        self.window = Menu()
-        # self.window = FirstLevel()
+        # self.window = Menu()
+        self.window = FirstLevel()
+        # self.window = SecondLevel()
         self.camera = Camera(INITIAL_COORDINATES[0])
         self.clock = Clock()
         self.event = EventManager()
@@ -27,6 +28,8 @@ class Game:
                 elif self.window.view == 'level1':
                     self.player.reset_statistic()
                     self.window = FirstLevel()
+                elif self.window.view == 'level2':
+                    self.window = SecondLevel()
 
             self.clock.tick(60)
             self.window.show(self.player.direction_index, self.camera.x, self.camera.y)
