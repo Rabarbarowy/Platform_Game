@@ -17,6 +17,7 @@ class Player(Physic, Drawable):
         self.jumping_image = self.transform_size(pygame.image.load('src/assets/images/player/rabarbarowy_jumping.png'), 3)
         self.falling_image = self.transform_size(pygame.image.load('src/assets/images/player/rabarbarowy_falling.png'), 3)
         self.dash_image = self.transform_size(pygame.image.load('src/assets/images/player/rabarbarowy_dash.png'), 3)
+        self.hanging_image = self.transform_size(pygame.image.load('src/assets/images/player/rabarbarowy_hanging.png'), 3)
         self.image = self.source_image
 
         self.life_element = pygame.image.load('src/assets/images/life_element.png')
@@ -40,6 +41,7 @@ class Player(Physic, Drawable):
         self.attacked = False
         self.invisible = False
         self.dashing = False
+        self.hanging = False
 
         self.dash_index = 0
         self.cooldown = 25
@@ -108,7 +110,10 @@ class Player(Physic, Drawable):
         elif self.jumping:
             self.image = self.jumping_image
         elif self.falling:
-            self.image = self.falling_image
+            if self.hanging:
+                self.image = self.hanging_image
+            else:
+                self.image = self.falling_image
 
         self.direction_of_player()
         self.direction_index = (self.x - self.start_x) / 8
@@ -116,10 +121,11 @@ class Player(Physic, Drawable):
     def jump(self) -> None:
         if not self.gravitation_power >= 0:
             self.gravitation_power -= 0.3
-        if not self.in_air:
+        if not self.in_air or self.hanging:
             self.gravitation_power -= self.jump_height
             self.in_air = True
             self.jumping = True
+            self.hanging = False
 
     def dash(self) -> None:
         if self.dash_index != 10:
@@ -151,7 +157,7 @@ class Player(Physic, Drawable):
         if on_something:
             self.in_air = False
 
-    def show_hp(self, screen, paused):
+    def show_hp(self, screen, paused: bool) -> None:
         index = 0
         if not paused:
             self.life_bar[0].heart_beating(self.hp)
@@ -161,7 +167,7 @@ class Player(Physic, Drawable):
             if index == self.hp:
                 break
 
-    def immortal(self):
+    def immortal(self) -> None:
         if self.attacked:
             self.immortal_time += 1
             self.invisible_time += 1
@@ -174,7 +180,7 @@ class Player(Physic, Drawable):
                 self.immortal_time = 0
                 self.attacked = False
 
-    def die(self):
+    def die(self) -> None:
         if self.hp == 0:
             self.hp = self.max_hp
             self.x = self.start_x
@@ -203,18 +209,29 @@ class Player(Physic, Drawable):
             self.draw(screen, camera_x, camera_y, False)
         self.show_hp(screen, paused)
 
+    def hang(self) -> None:
+        if self.falling and self.collided:
+            if self.y - self.y_of_object >= -5 and self.y - self.y_of_object <= 10:
+                self.gravitation_power = 0
+                self.hanging = True
+        else:
+            self.hanging = False
+
     def repeat(self, key: ScancodeWrapper, player, second_objects) -> None:
         self.immortal()
         previous_x = self.x
         self.gravitation_index.update_position(self.x, self.y)
         self.move(key)
-        self.image = self.animation(self.image, [96, 96])
+        self.image = self.animation(self.image, [66, 96])
         self.y = self.gravitation(self.y)
 
         self.check_collision(player, second_objects, previous_x)
         self.die()
         if self.cooldown != self.cooldown_index:
             self.cooldown_index += 1
+
+        self.hang()
+        self.collided = False
 
 
 class GravitationIndex:

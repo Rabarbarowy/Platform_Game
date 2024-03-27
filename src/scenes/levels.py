@@ -22,12 +22,15 @@ class FirstLevel(Scene):
             VisibleObject(-100, 400, platform, 3, True),
             VisibleObject(400, 400, platform, 3, True),
             VisibleObject(640, 500, platform, 3, True),
+            VisibleObject(840, 550, platform, 3, True),
             VisibleObject(1000, 400, platform, 3, True),
             VisibleObject(1200, 350, platform2, 3, True),
+            VisibleObject(1200, 550, platform2, 3, True),
+            VisibleObject(1200, 750, platform2, 3, True),
         ]
-        self.hostile_objects = [
-            Spike(640, 479, spike, 3),
-        ]
+        # self.hostile_objects = [
+        #     Spike(640, 479, spike, 3),
+        # ]
 
 
 class SecondLevel(Scene):

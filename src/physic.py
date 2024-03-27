@@ -2,6 +2,8 @@ class Physic:
     def __init__(self) -> None:
         self.gravitation_power = 1
         self.in_air = True
+        self.collided = False
+        self.y_of_object = 0
 
     def gravitation(self, y: int) -> int:
         if self.in_air:
@@ -12,12 +14,11 @@ class Physic:
     def resset_gravitation_power(self) -> None:
         self.gravitation_power = 0
 
-    def collision(self, collid_object, second_object, previous_x: int, gravitation_index, jumping) -> None:
-        if collid_object.hitbox.colliderect(second_object.hitbox):
-            if collid_object.x + collid_object.width >= second_object.x:  # from right
-                collid_object.x = previous_x
-            if collid_object.hitbox.colliderect(second_object.hitbox):
-                collid_object.x = previous_x
+    def collision(self, collid_object, second_object, previous_x: int, gravitation_index, jumping: bool) -> None:
+        if collid_object.hitbox.colliderect(second_object.hitbox):  # from left and right
+            collid_object.x = previous_x
+            self.collided = True
+            self.y_of_object = second_object.y
         if collid_object.y + collid_object.height >= second_object.y and not jumping:  # from up
             if collid_object.hitbox.colliderect(second_object.hitbox):
                 collid_object.y = second_object.y - collid_object.height
