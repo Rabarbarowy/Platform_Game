@@ -58,3 +58,42 @@ class Button(VisibleObject):
                 self.pressed = False
         else:
             self.hovered = False
+
+
+class SpecialBall(VisibleObject):
+    def __init__(self, x: int, y: int, image, color: str) -> None:
+        super().__init__(x=x, y=y, image=image, size_index=3, collision=True)
+        self.color = color
+        self.active = True
+        self.cooldown = 0
+        self.inactive_ball = self.transform_size(pygame.image.load('src/assets/images/grey_ball.png'), 3)
+
+    def action(self, player) -> None:
+        self.check_active()
+        if player.hitbox.colliderect(self.hitbox):
+            if self.active:
+                if self.color == 'red':
+                    self.red_action(player)
+                elif self.color == 'blue':
+                    self.blue_action(player)
+                elif self.color == 'green':
+                    self.green_action(player)
+
+    def red_action(self, player) -> None:
+        if player.hp < player.max_hp:
+            player.hp += 1
+            self.active = False
+
+    def blue_action(self, player) -> None:
+        player.dash_index = 0
+
+    def green_action(self, player) -> None:
+        if self.cooldown == 0:
+            player.double_jump = True
+            self.active = False
+
+    def check_active(self) -> None:
+        if self.active:
+            self.image = self.source_image
+        else:
+            self.image = self.inactive_ball

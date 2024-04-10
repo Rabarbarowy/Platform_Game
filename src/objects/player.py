@@ -36,6 +36,7 @@ class Player(Physic, Drawable):
         # Action Status
         self.jumping = False
         self.falling = False
+        self.double_jump = False
         self.running_right = False
         self.running_left = False
         self.attacked = False
@@ -126,6 +127,11 @@ class Player(Physic, Drawable):
             self.in_air = True
             self.jumping = True
             self.hanging = False
+        elif self.double_jump:
+            self.jumping = True
+            self.gravitation_power = 0
+            self.gravitation_power -= self.jump_height
+            self.double_jump = False
 
     def dash(self) -> None:
         if self.dash_index != 10:
@@ -153,6 +159,7 @@ class Player(Physic, Drawable):
                 self.collision(player, every_object, previous_x, self.gravitation_index, self.jumping)
             if not self.in_air:
                 on_something = True
+                self.double_jump = False
 
         if on_something:
             self.in_air = False

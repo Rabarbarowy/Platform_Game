@@ -21,7 +21,7 @@ class Scene:
 
         self.draw_player = True
         self.objects_to_draw = []
-        self.hostile_objects = []
+        self.special_objects = []
         self.buttons = []
         self.pause_buttons = [
             Button(430, 200, pygame.image.load('src/assets/images/buttons/resume.png'), 'resume'),
@@ -41,7 +41,7 @@ class Scene:
 
         for element in self.objects_to_draw:
             element.draw(self.screen, camera_x, camera_y, False)
-        for element in self.hostile_objects:
+        for element in self.special_objects:
             element.draw(self.screen, camera_x, camera_y, False)
 
     def darken(self, dimensions: tuple, coordinates: tuple) -> None:
@@ -50,7 +50,7 @@ class Scene:
         self.screen.blit(obfuscate, coordinates)
 
     def repeat(self, player: Player, clicked: bool) -> None:
-        for element in self.hostile_objects:
+        for element in self.special_objects:
             element.action(player)
 
         self.old_view = self.view
