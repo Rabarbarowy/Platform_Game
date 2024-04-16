@@ -194,7 +194,7 @@ class Player(Physic, Drawable):
             self.y = self.start_y
             self.in_air = True
 
-        if self.y >= 1000:
+        if self.y >= 1500:
             self.hp -= 1
             self.y = self.start_y
             self.gravitation_power = 1
@@ -209,6 +209,7 @@ class Player(Physic, Drawable):
         self.attacked = False
         self.gravitation_power = 1
         self.immortal_time = 0
+        self.invisible_time = 0
         self.direction = 'right'
 
     def show_player(self, screen, camera_x: int, camera_y: int, paused: bool) -> None:
