@@ -33,7 +33,7 @@ class Game:
 
             self.clock.tick(60)
             self.window.show(self.player.direction_index, self.camera.x, self.camera.y)
-            self.window.repeat(self.player, self.event.clicked)
+            self.window.repeat(self.player, self.event.clicked, self.event.key)
             self.event.update(self.window.view)
 
             if not self.event.paused:

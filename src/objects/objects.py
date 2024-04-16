@@ -1,4 +1,5 @@
 import pygame
+from pygame.key import ScancodeWrapper
 
 from src.display import Drawable
 
@@ -97,3 +98,21 @@ class SpecialBall(VisibleObject):
             self.image = self.source_image
         else:
             self.image = self.inactive_ball
+
+
+class Teleporter(VisibleObject):
+    def __init__(self, x: int, y: int, next_level) -> None:
+        super().__init__(x=x, y=y, image=pygame.image.load('src/assets/images/teleporter.png'), size_index=3, collision=True)
+        self.working_teleporter = self.transform_size(pygame.image.load('src/assets/images/working_teleporter.png'), 3)
+        self.next_level = next_level
+
+    def action(self, player, key: ScancodeWrapper) -> None:
+        if player.hitbox.colliderect(self.hitbox):
+            self.image = self.working_teleporter
+            if key[pygame.K_e]:
+                print('elo')
+        else:
+            self.image = self.source_image
+
+        self.image = self.animation(self.image, (144, 144))
+

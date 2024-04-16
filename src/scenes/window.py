@@ -1,4 +1,5 @@
 import pygame
+from pygame.key import ScancodeWrapper
 
 from src.constants import WINDOW_WIDTH, WINDOW_HEIGHT, BACKGROUND_IMAGE
 from src.objects.objects import Button
@@ -22,6 +23,7 @@ class Scene:
         self.draw_player = True
         self.objects_to_draw = []
         self.special_objects = []
+        self.teleporters = []
         self.buttons = []
         self.pause_buttons = [
             Button(430, 200, pygame.image.load('src/assets/images/buttons/resume.png'), 'resume'),
@@ -43,15 +45,19 @@ class Scene:
             element.draw(self.screen, camera_x, camera_y, False)
         for element in self.special_objects:
             element.draw(self.screen, camera_x, camera_y, False)
+        for element in self.teleporters:
+            element.draw(self.screen, camera_x, camera_y, False)
 
     def darken(self, dimensions: tuple, coordinates: tuple) -> None:
         obfuscate = pygame.Surface(dimensions)
         obfuscate.set_alpha(150)
         self.screen.blit(obfuscate, coordinates)
 
-    def repeat(self, player: Player, clicked: bool) -> None:
+    def repeat(self, player: Player, clicked: bool, key: ScancodeWrapper) -> None:
         for element in self.special_objects:
             element.action(player)
+        for element in self.teleporters:
+            element.action(player, key)
 
         self.old_view = self.view
         for button in self.buttons:
