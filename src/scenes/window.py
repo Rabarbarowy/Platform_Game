@@ -54,12 +54,14 @@ class Scene:
         self.screen.blit(obfuscate, coordinates)
 
     def repeat(self, player: Player, clicked: bool, key: ScancodeWrapper) -> None:
+        self.old_view = self.view
         for element in self.special_objects:
             element.action(player)
         for element in self.teleporters:
-            element.action(player, key)
+            changed_level = element.action(player, key)
+            if changed_level != '':
+                self.view = element.next_level
 
-        self.old_view = self.view
         for button in self.buttons:
             button.draw(self.screen, button.x, button.y, True)
             button.check_action(clicked)

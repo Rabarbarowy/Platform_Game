@@ -107,12 +107,14 @@ class Teleporter(VisibleObject):
         self.next_level = next_level
 
     def action(self, player, key: ScancodeWrapper) -> None:
+        next = ''
         if player.hitbox.colliderect(self.hitbox):
             self.image = self.working_teleporter
             if key[pygame.K_e]:
-                print('elo')
+                next = self.next_level
         else:
             self.image = self.source_image
+            next = ''
 
         self.image = self.animation(self.image, (144, 144))
-
+        return next

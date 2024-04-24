@@ -20,3 +20,7 @@ class Camera:
 
         self.y = player_y - self.middle_of_y
 
+    def reset_coordinates(self, coordinates: list) -> None:
+        self.x = coordinates[0]
+        self.y = coordinates[1]
+

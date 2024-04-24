@@ -12,8 +12,8 @@ from src.scenes.menu import Menu
 class Game:
     def __init__(self) -> None:
         pygame.init()
-        # self.window = Menu()
-        self.window = FirstLevel()
+        self.window = Menu()
+        # self.window = FirstLevel()
         # self.window = SecondLevel()
         self.camera = Camera(INITIAL_COORDINATES[0])
         self.clock = Clock()
@@ -28,8 +28,11 @@ class Game:
                 elif self.window.view == 'level1':
                     self.player.reset_statistic()
                     self.window = FirstLevel()
+                    self.camera.reset_coordinates(INITIAL_COORDINATES)
                 elif self.window.view == 'level2':
                     self.window = SecondLevel()
+                    self.player.reset_statistic()
+                    self.camera.reset_coordinates(INITIAL_COORDINATES)
 
             self.clock.tick(60)
             self.window.show(self.player.direction_index, self.camera.x, self.camera.y)
