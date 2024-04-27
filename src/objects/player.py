@@ -26,6 +26,7 @@ class Player(Physic, Drawable):
         self.start_x, self.start_y = initial_coordinates
         self.x = self.start_x
         self.y = self.start_y
+        self.previous_x = self.x
 
         # Statistics Property
         self.speed = 6
@@ -127,6 +128,7 @@ class Player(Physic, Drawable):
             self.in_air = True
             self.jumping = True
             self.hanging = False
+            self.previous_x = self.x
         elif self.double_jump:
             self.jumping = True
             self.gravitation_power = 0
@@ -197,6 +199,7 @@ class Player(Physic, Drawable):
         if self.y >= 1500:
             self.hp -= 1
             self.y = self.start_y
+            self.x = self.previous_x
             self.gravitation_power = 1
             self.attacked = True
 

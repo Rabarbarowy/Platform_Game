@@ -12,8 +12,8 @@ from src.scenes.menu import Menu
 class Game:
     def __init__(self) -> None:
         pygame.init()
-        self.window = Menu()
-        # self.window = FirstLevel()
+        # self.window = Menu()
+        self.window = FirstLevel()
         # self.window = SecondLevel()
         self.camera = Camera(INITIAL_COORDINATES[0])
         self.clock = Clock()
