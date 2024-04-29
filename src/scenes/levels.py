@@ -19,6 +19,37 @@ class FirstLevel(Scene):
         super().__init__()
         self.view = 'level1'
         self.objects_to_draw = [
+            VisibleObject(290, -1000, platform, 3, True),
+            VisibleObject(290, 300, platform, 3, True),
+            VisibleObject(482, 300, platform, 3, True),
+            VisibleObject(674, 300, platform, 3, True),
+            VisibleObject(1000, 300, platform, 3, True),
+            VisibleObject(1000, 300, platform, 3, True),
+            VisibleObject(1300, 250, platform, 3, True),
+            VisibleObject(1600, 200, platform, 3, True),
+            VisibleObject(1792, 200, platform, 3, True),
+            VisibleObject(1984, 200, platform, 3, True),
+            VisibleObject(2350, 200, platform3, 3, True),
+            VisibleObject(2500, 000, platform2, 3, True),
+            VisibleObject(3000, 300, platform, 3, True),
+            VisibleObject(3192, 300, platform, 3, True),
+        ]
+
+        self.special_objects = [
+            Spike(1984, 179, spike, 3),
+            Spike(3080, 279, spike2, 3),
+        ]
+
+        self.teleporters = [
+            Teleporter(3220, 156, 'level2'),
+        ]
+
+
+class SecondLevel(Scene):
+    def __init__(self):
+        super().__init__()
+        self.view = 'level2'
+        self.objects_to_draw = [
             VisibleObject(290, 300, platform, 3, True),
             VisibleObject(482, 300, platform, 3, True),
             VisibleObject(674, 300, platform, 3, True),
@@ -74,13 +105,4 @@ class FirstLevel(Scene):
 
         self.teleporters = [
             Teleporter(4530, 606, 'level2'),
-        ]
-
-
-class SecondLevel(Scene):
-    def __init__(self):
-        super().__init__()
-        self.view = 'level2'
-        self.objects_to_draw = [
-            VisibleObject(290, 300, platform, 3, True),
         ]

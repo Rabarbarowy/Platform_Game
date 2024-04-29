@@ -233,7 +233,7 @@ class Player(Physic, Drawable):
         previous_x = self.x
         self.gravitation_index.update_position(self.x, self.y)
         self.move(key)
-        self.image = self.animation(self.image, [66, 96])
+        self.image = self.animation(self.image, [66, self.height])
         self.y = self.gravitation(self.y)
 
         self.check_collision(player, second_objects, previous_x)
