@@ -31,9 +31,13 @@
 #     pygame.display.update()
 
 import pygame, sys
+from pydub import AudioSegment
 from pygame.locals import *
 
 pygame.init()
+
+moving_sound = pygame.mixer.Sound('/home/krzysztof/dev/Platform_Game/src/assets/sounds/moving.mp3')
+
 
 #Create a displace surface object
 #Below line will let you toggle from maximize to the initial size
@@ -45,6 +49,7 @@ while mainLoop:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             mainLoop = False
+    moving_sound.play()
     pygame.display.update()
 
 pygame.quit()

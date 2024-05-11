@@ -17,8 +17,8 @@ class Scene:
         self.background_color = (234, 212, 252)
         self.background_image = self.background.img
         self.screen = pygame.display.set_mode((self.width, self.height))
-        self.old_view = 'menu'
-        self.view = self.old_view
+        self.old_view = ''
+        self.view = 'menu'
 
         self.draw_player = True
         self.objects_to_draw = []
@@ -31,8 +31,10 @@ class Scene:
         ]
 
         self.pause_index = False
+        # self.music = pygame.mixer.Sound('src/assets/sounds/mcmusic.mp3')
 
     def show(self, direction_index: int, camera_x: int, camera_y: int) -> None:
+        # self.music.play(-1)
         self.screen.fill(self.background_color)
         if direction_index + 250 + WINDOW_WIDTH >= self.background.width:
             self.screen.blit(self.background_image.convert(), (-self.background.width + WINDOW_WIDTH, 0))
@@ -74,8 +76,10 @@ class Scene:
                     raise SystemExit
 
     def pause_menu(self, clicked: bool) -> None:
+        self.pause_index = False
         self.darken((self.width, self.height), (0, 0))
         for button in self.pause_buttons:
+            print(button.pressed)
             button.draw(self.screen, button.x, button.y, True)
             button.check_action(clicked)
             if button.hovered:
@@ -85,6 +89,7 @@ class Scene:
                     self.view = 'menu'
                 elif button.name == 'resume':
                     self.pause_index = True
+                button.pressed = False
 
 
 class Background(Sprite):
