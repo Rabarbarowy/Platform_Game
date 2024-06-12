@@ -2,7 +2,7 @@ import pygame
 from pygame.time import Clock
 
 from src.camera.camera import Camera
-from src.constants import INITIAL_COORDINATES
+from src.constants import INITIAL_COORDINATES, FPS
 from src.events import EventManager
 from src.objects.player import Player
 from src.scenes.levels import LevelChanger
@@ -35,7 +35,7 @@ class Game:
                     self.player.reset_statistic()
                     self.camera.reset_coordinates(INITIAL_COORDINATES)
 
-            self.clock.tick(60)
+            self.clock.tick(FPS)
             self.window.show(self.player.direction_index, self.camera.x, self.camera.y)
             self.window.repeat(self.player, self.event.clicked, self.event.key)
             self.event.update(self.window.view)

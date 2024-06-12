@@ -19,7 +19,6 @@ class Player(Physic, Drawable):
         self.dash_image = self.transform_size(pygame.image.load('src/assets/images/player/rabarbarowy_dash.png'), 3)
         self.hanging_image = self.transform_size(pygame.image.load('src/assets/images/player/rabarbarowy_hanging.png'), 3)
         self.image = self.source_image
-
         self.life_element = pygame.image.load('src/assets/images/life_element.png')
 
         # Coordinates Properties
