@@ -19,6 +19,7 @@ class Game:
         self.event = EventManager()
         self.player = Player(INITIAL_COORDINATES, self.camera.y)
         self.sound_manager = SoundManager()
+        # self.window.view = 'level2'
 
     def run_game(self) -> None:
         while True:

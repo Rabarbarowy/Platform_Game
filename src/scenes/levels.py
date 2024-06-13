@@ -46,7 +46,7 @@ class LevelChanger(Scene):
             VisibleObject(3192, 300, platform, 3, True),
         ]
         self.special_objects = [
-            Spike(1984, 179, spike, 3),
+            Spike(1996, 179, spike, 3),
             Spike(3080, 279, spike2, 3),
         ]
         self.teleporters = [
@@ -92,21 +92,21 @@ class LevelChanger(Scene):
             VisibleObject(4500, 750, platform, 3, True),
         ]
         self.special_objects = [
-            Spike(674, 279, spike, 3),
-            Spike(1400, 479, spike2, 3),
-            Spike(1700, 429, spike2, 3),
-            Spike(2444, 679, spike2, 3),
-            Spike(2800, 879, spike, 3),
-            Spike(3300, 759, spike2, 3),
-            Spike(3348, 439, spike, 3),
-            Spike(3732, 439, spike, 3),
-            Spike(3924, 700, spike2, 3),
+            Spike(686, 279, spike, 3),
+            Spike(1403, 479, spike2, 3),
+            Spike(1703, 429, spike2, 3),
+            Spike(2447, 679, spike2, 3),
+            Spike(2812, 879, spike, 3),
+            Spike(3303, 759, spike2, 3),
+            Spike(3360, 439, spike, 3),
+            Spike(3744, 439, spike, 3),
+            Spike(3927, 700, spike2, 3),
 
-            Spike(3300, 1279, spike, 3),
-            Spike(3492, 1279, spike, 3),
-            Spike(3684, 1279, spike, 3),
-            Spike(3876, 1279, spike, 3),
-            Spike(4066, 1279, spike, 3),
+            Spike(3312, 1279, spike, 3),
+            Spike(3504, 1279, spike, 3),
+            Spike(3696, 1279, spike, 3),
+            Spike(3888, 1279, spike, 3),
+            Spike(4078, 1279, spike, 3),
         ]
         self.teleporters = [
             Teleporter(4530, 606, 'level2'),
