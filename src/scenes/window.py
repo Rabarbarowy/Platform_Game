@@ -79,7 +79,6 @@ class Scene:
         self.pause_index = False
         self.darken((self.width, self.height), (0, 0))
         for button in self.pause_buttons:
-            print(button.pressed)
             button.draw(self.screen, button.x, button.y, True)
             button.check_action(clicked)
             if button.hovered:

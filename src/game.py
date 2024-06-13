@@ -7,6 +7,7 @@ from src.events import EventManager
 from src.objects.player import Player
 from src.scenes.levels import LevelChanger
 from src.scenes.menu import Menu
+from src.sounds import SoundManager
 
 
 class Game:
@@ -17,6 +18,7 @@ class Game:
         self.clock = Clock()
         self.event = EventManager()
         self.player = Player(INITIAL_COORDINATES, self.camera.y)
+        self.sound_manager = SoundManager()
 
     def run_game(self) -> None:
         while True:
@@ -39,6 +41,7 @@ class Game:
             self.window.show(self.player.direction_index, self.camera.x, self.camera.y)
             self.window.repeat(self.player, self.event.clicked, self.event.key)
             self.event.update(self.window.view)
+            self.sound_manager.use_manager(self.player)
 
             if not self.event.paused:
                 self.camera.update_position(self.player.x, self.player.y)
