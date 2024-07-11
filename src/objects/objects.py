@@ -118,3 +118,14 @@ class Teleporter(VisibleObject):
 
         self.image = self.animation(self.image, (144, 144))
         return next
+
+
+class Laser(VisibleObject):
+    def __init__(self) -> None:
+        super().__init__(x=0, y=0, image=pygame.image.load('src/assets/images/teleport_laser.png'), size_index=3, collision=False)
+        self.time_index = 100
+        self.laser_index = self.time_index
+
+    def laser_animation(self, screen, player_x) -> None:
+        self.image = self.animation(self.image, (48 * 3, 104 * 3))
+        self.draw(screen, player_x, 0, True)

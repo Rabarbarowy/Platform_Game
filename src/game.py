@@ -6,7 +6,6 @@ from src.constants import INITIAL_COORDINATES, FPS
 from src.events import EventManager
 from src.objects.player import Player
 from src.scenes.levels import LevelChanger
-from src.scenes.menu import Menu
 from src.sounds import SoundManager
 
 
@@ -19,24 +18,25 @@ class Game:
         self.event = EventManager()
         self.player = Player(INITIAL_COORDINATES, self.camera.y)
         self.sound_manager = SoundManager()
-        # self.window.view = 'level2'
 
     def run_game(self) -> None:
         while True:
             if self.window.view != self.window.old_view:
-                if self.window.view == 'menu':
-                    # self.window = Menu()
-                    self.window.menu()
-                elif self.window.view == 'level1':
-                    self.player.reset_statistic()
-                    self.window.level1()
-                    # self.window = FirstLevel()
+                self.window.change_level(self.player.x)
+                if self.window.reset_player_stats:
                     self.camera.reset_coordinates(INITIAL_COORDINATES)
-                elif self.window.view == 'level2':
-                    self.window.level2()
-                    # self.window = SecondLevel()
                     self.player.reset_statistic()
-                    self.camera.reset_coordinates(INITIAL_COORDINATES)
+
+            #     if self.window.view == 'menu':
+            #         self.window.menu()
+            #     elif self.window.view == 'level1':
+            #         self.window.level1()
+            #         self.player.reset_statistic()
+            #         self.camera.reset_coordinates(INITIAL_COORDINATES)
+            #     elif self.window.view == 'level2':
+            #         self.window.level2()
+            #         self.player.reset_statistic()
+            #         self.camera.reset_coordinates(INITIAL_COORDINATES)
 
             self.clock.tick(FPS)
             self.window.show(self.player.direction_index, self.camera.x, self.camera.y)

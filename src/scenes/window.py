@@ -2,7 +2,7 @@ import pygame
 from pygame.key import ScancodeWrapper
 
 from src.constants import WINDOW_WIDTH, WINDOW_HEIGHT, BACKGROUND_IMAGE
-from src.objects.objects import Button
+from src.objects.objects import Button, Laser
 from src.objects.player import Player
 from src.sprite import Sprite
 
@@ -31,10 +31,8 @@ class Scene:
         ]
 
         self.pause_index = False
-        # self.music = pygame.mixer.Sound('src/assets/sounds/mcmusic.mp3')
 
     def show(self, direction_index: int, camera_x: int, camera_y: int) -> None:
-        # self.music.play(-1)
         self.screen.fill(self.background_color)
         if direction_index + 250 + WINDOW_WIDTH >= self.background.width:
             self.screen.blit(self.background_image.convert(), (-self.background.width + WINDOW_WIDTH, 0))
@@ -56,7 +54,6 @@ class Scene:
         self.screen.blit(obfuscate, coordinates)
 
     def repeat(self, player: Player, clicked: bool, key: ScancodeWrapper) -> None:
-        self.old_view = self.view
         for element in self.special_objects:
             element.action(player)
         for element in self.teleporters:

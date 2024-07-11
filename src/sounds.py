@@ -27,6 +27,3 @@ class SoundManager:
         else:
             self.current_sound.stop()
             self.sound_index = 0
-
-        print(self.sound_index)
-

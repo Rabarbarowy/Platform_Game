@@ -1,5 +1,5 @@
 import pygame
-from src.objects.objects import VisibleObject, Spike, SpecialBall, Teleporter, Button
+from src.objects.objects import VisibleObject, Spike, SpecialBall, Teleporter, Button, Laser
 from src.scenes.window import Scene
 
 
@@ -14,10 +14,34 @@ green_ball = pygame.image.load('src/assets/images/green_ball.png')
 
 
 class LevelChanger(Scene):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
+        self.laser = Laser()
+        self.reset_player_stats = False
 
-    def menu(self):
+    # def change_level_animation(self, player_x) -> None:
+    #     if self.laser.laser_index != 0:
+    #         self.laser.laser_index -= 1
+    #         self.laser.laser_animation(self.screen, player_x)
+    #     else:
+    #         self.laser.laser_index = 100
+
+    def change_level(self, player_x) -> None:
+        if self.old_view != self.view:
+            self.reset_player_stats = False
+            # self.change_level_animation(player_x)
+            if self.laser.laser_index == 100:
+                if self.view == 'menu':
+                    self.menu()
+                if self.view == 'level1':
+                    self.level1()
+                if self.view == 'level2':
+                    self.level2()
+                self.reset_player_stats = True
+
+                self.old_view = self.view
+
+    def menu(self) -> None:
         self.draw_player = False
         self.buttons = [
             Button(430, 200, pygame.image.load('src/assets/images/buttons/play.png'), 'play'),
@@ -27,7 +51,7 @@ class LevelChanger(Scene):
         self.special_objects = []
         self.teleporters = []
 
-    def level1(self):
+    def level1(self) -> None:
         self.draw_player = True
         self.objects_to_draw = [
             VisibleObject(290, -1000, platform, 3, True),
@@ -54,7 +78,7 @@ class LevelChanger(Scene):
         ]
         self.buttons = []
 
-    def level2(self):
+    def level2(self) -> None:
         self.draw_player = True
         self.objects_to_draw = [
             VisibleObject(290, 300, platform, 3, True),
