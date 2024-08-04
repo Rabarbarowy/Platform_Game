@@ -43,6 +43,8 @@ class Player(Physic, Drawable):
         self.invisible = False
         self.dashing = False
         self.hanging = False
+        self.can_move = True
+        self.frozen = False
 
         self.dash_index = 0
         self.cooldown = 25
@@ -207,12 +209,21 @@ class Player(Physic, Drawable):
         self.y = self.start_y
         self.hp = self.max_hp
         self.in_air = True
-        self.invisible = False
         self.attacked = False
         self.gravitation_power = 1
         self.immortal_time = 0
         self.invisible_time = 0
         self.direction = 'right'
+
+    def froze(self) -> None:
+        self.speed = 0
+        self.jump_height = 0
+        self.frozen = True
+
+    def frostbite(self) -> None:
+        self.speed = 6
+        self.jump_height = 8
+        self.frozen = False
 
     def show_player(self, screen, camera_x: int, camera_y: int, paused: bool) -> None:
         if not self.invisible:
@@ -233,12 +244,16 @@ class Player(Physic, Drawable):
         self.gravitation_index.update_position(self.x, self.y)
         self.move(key)
         self.image = self.animation(self.image, [66, self.height])
+
         self.y = self.gravitation(self.y)
 
         self.check_collision(player, second_objects, previous_x)
         self.die()
         if self.cooldown != self.cooldown_index:
             self.cooldown_index += 1
+
+        if self.frozen:
+            self.image = self.source_image
 
         self.hang()
         self.collided = False

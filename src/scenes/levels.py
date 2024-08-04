@@ -16,30 +16,70 @@ green_ball = pygame.image.load('src/assets/images/green_ball.png')
 class LevelChanger(Scene):
     def __init__(self) -> None:
         super().__init__()
-        self.laser = Laser()
+        self.time_index = 160
+        self.change_level_animation_index = self.time_index
+        self.x_for_laser = 0
+        self.invisible_index = 52
+
+        self.laser_to_draw = []
+
         self.reset_player_stats = False
+        self.animation_started = False
+        self.level_changed = False
+        self.frozen_player = False
+        self.invisible_player = True
 
-    # def change_level_animation(self, player_x) -> None:
-    #     if self.laser.laser_index != 0:
-    #         self.laser.laser_index -= 1
-    #         self.laser.laser_animation(self.screen, player_x)
-    #     else:
-    #         self.laser.laser_index = 100
+    def draw_laser(self, camera_x: int, camera_y: int) -> None:
+        for element in self.laser_to_draw:
+            element.draw(self.screen, camera_x, camera_y, False)
 
-    def change_level(self, player_x) -> None:
+    def change_level_animation(self, player_x: int) -> None:
+        if self.change_level_animation_index != 0:
+            self.change_level_animation_index -= 1
+            if not self.animation_started:
+                self.laser_to_draw.append(Laser(player_x - 35, self.x_for_laser))
+                self.laser_to_draw[0].laser_animation()
+                self.animation_started = True
+            else:
+                self.laser_to_draw[0].laser_animation()
+        else:
+            self.change_level_animation_index = self.time_index
+            self.laser_to_draw.pop(0)
+            self.animation_started = False
+
+    def change_level(self, player_x: int) -> None:
         if self.old_view != self.view:
+            self.frozen_player = True
             self.reset_player_stats = False
-            # self.change_level_animation(player_x)
-            if self.laser.laser_index == 100:
+            if 'level' in self.old_view and 'level' in self.view:
+                self.x_for_laser = self.teleporters[0].y - 456
+                self.change_level_animation(player_x)
+            if self.change_level_animation_index == self.invisible_index + 10:
+                self.invisible_player = True
+            if self.change_level_animation_index == self.time_index:
                 if self.view == 'menu':
                     self.menu()
                 if self.view == 'level1':
                     self.level1()
                 if self.view == 'level2':
                     self.level2()
+                    self.view = 'level1'
                 self.reset_player_stats = True
-
+                self.level_changed = True
                 self.old_view = self.view
+
+    def show_up_in_new_level(self, player_x: int, player_y: int) -> None:
+        if self.level_changed:
+            if 'level' in self.old_view and 'level' in self.view:
+                self.x_for_laser = player_y - 300
+                self.change_level_animation(player_x)
+            else:
+                self.invisible_player = True
+            if self.change_level_animation_index == self.invisible_index:
+                self.invisible_player = False
+            if self.change_level_animation_index == self.time_index:
+                self.level_changed = False
+                self.frozen_player = False
 
     def menu(self) -> None:
         self.draw_player = False
@@ -68,6 +108,7 @@ class LevelChanger(Scene):
             VisibleObject(2500, 000, platform2, 3, True),
             VisibleObject(3000, 300, platform, 3, True),
             VisibleObject(3192, 300, platform, 3, True),
+            VisibleObject(3384, 300, platform, 3, True),
         ]
         self.special_objects = [
             Spike(1996, 179, spike, 3),
@@ -114,6 +155,8 @@ class LevelChanger(Scene):
             VisibleObject(4066, 1300, platform, 3, True),
 
             VisibleObject(4500, 750, platform, 3, True),
+            VisibleObject(4692, 750, platform, 3, True),
+            VisibleObject(4882, 750, platform, 3, True),
         ]
         self.special_objects = [
             Spike(686, 279, spike, 3),
@@ -133,6 +176,6 @@ class LevelChanger(Scene):
             Spike(4078, 1279, spike, 3),
         ]
         self.teleporters = [
-            Teleporter(4530, 606, 'level2'),
+            Teleporter(4720, 606, 'level2'),
         ]
         self.buttons = []

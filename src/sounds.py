@@ -24,6 +24,8 @@ class SoundManager:
         if player.running_left or player.running_right and not player.in_air:
             self.current_sound = self.run_sound
             self.play_sound()
+            if player.frozen:
+                self.current_sound.stop()
         else:
             self.current_sound.stop()
             self.sound_index = 0

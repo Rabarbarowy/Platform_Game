@@ -21,30 +21,29 @@ class Game:
 
     def run_game(self) -> None:
         while True:
-            if self.window.view != self.window.old_view:
-                self.window.change_level(self.player.x)
-                if self.window.reset_player_stats:
-                    self.camera.reset_coordinates(INITIAL_COORDINATES)
-                    self.player.reset_statistic()
-
-            #     if self.window.view == 'menu':
-            #         self.window.menu()
-            #     elif self.window.view == 'level1':
-            #         self.window.level1()
-            #         self.player.reset_statistic()
-            #         self.camera.reset_coordinates(INITIAL_COORDINATES)
-            #     elif self.window.view == 'level2':
-            #         self.window.level2()
-            #         self.player.reset_statistic()
-            #         self.camera.reset_coordinates(INITIAL_COORDINATES)
+            if not self.event.paused:
+                if self.window.view != self.window.old_view:
+                    self.window.change_level(self.player.x)
+                    if self.window.reset_player_stats:
+                        self.camera.reset_coordinates(INITIAL_COORDINATES)
+                        self.player.reset_statistic()
+                self.window.show_up_in_new_level(self.player.x, self.player.y)
+            if self.window.frozen_player:
+                self.player.froze()
+                if self.window.invisible_player:
+                    self.player.invisible = True
+                else:
+                    self.player.invisible = False
+            else:
+                self.player.frostbite()
 
             self.clock.tick(FPS)
             self.window.show(self.player.direction_index, self.camera.x, self.camera.y)
             self.window.repeat(self.player, self.event.clicked, self.event.key)
             self.event.update(self.window.view)
-            self.sound_manager.use_manager(self.player)
 
             if not self.event.paused:
+                self.sound_manager.use_manager(self.player)
                 self.camera.update_position(self.player.x, self.player.y)
                 if self.window.draw_player:
                     self.player.repeat(
@@ -58,6 +57,8 @@ class Game:
                         self.camera.y,
                         self.event.paused,
                     )
+                    self.window.draw_laser(self.camera.x, self.camera.y)
+                    self.window.draw_buttons()
             else:
                 self.player.show_player(
                     self.window.screen,
@@ -65,9 +66,11 @@ class Game:
                     self.camera.y,
                     self.event.paused,
                 )
+                self.window.draw_laser(self.camera.x, self.camera.y)
                 self.window.pause_menu(self.event.clicked)
                 if self.window.pause_index:
                     self.window.pause_index = False
                     self.event.paused = False
 
+            self.window.draw_buttons()
             pygame.display.update()

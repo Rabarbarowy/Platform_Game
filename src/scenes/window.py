@@ -2,7 +2,7 @@ import pygame
 from pygame.key import ScancodeWrapper
 
 from src.constants import WINDOW_WIDTH, WINDOW_HEIGHT, BACKGROUND_IMAGE
-from src.objects.objects import Button, Laser
+from src.objects.objects import Button
 from src.objects.player import Player
 from src.sprite import Sprite
 
@@ -62,7 +62,6 @@ class Scene:
                 self.view = element.next_level
 
         for button in self.buttons:
-            button.draw(self.screen, button.x, button.y, True)
             button.check_action(clicked)
             if button.hovered:
                 self.darken((button.width, button.height), (button.x, button.y))
@@ -71,6 +70,12 @@ class Scene:
                     self.view = 'level1'
                 elif button.name == 'exit':
                     raise SystemExit
+
+    def draw_buttons(self) -> None:
+        for button in self.buttons:
+            button.draw(self.screen, button.x, button.y, True)
+            if button.hovered:
+                self.darken((button.width, button.height), (button.x, button.y))
 
     def pause_menu(self, clicked: bool) -> None:
         self.pause_index = False
