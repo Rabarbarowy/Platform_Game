@@ -2,15 +2,18 @@ import pygame
 from pygame.key import ScancodeWrapper
 
 from src.animation import AnimateSprite
+from src.constants import FPS
 from src.display import Drawable
 from src.objects.objects import VisibleObject, Heart
 from src.physic import Physic
+from src.sounds import SoundManager
 
 
-class Player(Physic, Drawable):
+class Player(Physic, Drawable, SoundManager):
     def __init__(self, initial_coordinates: list, camera_y: int) -> None:
         super().__init__()
         AnimateSprite.__init__(self)
+        SoundManager.__init__(self)
         # Images
         self.source_image = self.transform_size(pygame.image.load('src/assets/images/player/rabarbarowy.png'), 3)
         self.run_image = self.transform_size(pygame.image.load('src/assets/images/player/rabarbarowy_run.png'), 3)
@@ -20,6 +23,11 @@ class Player(Physic, Drawable):
         self.hanging_image = self.transform_size(pygame.image.load('src/assets/images/player/rabarbarowy_hanging.png'), 3)
         self.image = self.source_image
         self.life_element = pygame.image.load('src/assets/images/life_element.png')
+
+        # Sounds
+        self.run_sound = pygame.mixer.Sound('src/assets/sounds/moving.mp3')
+        self.jump_sound = pygame.mixer.Sound('src/assets/sounds/jump.mp3')
+        self.dash_sound = pygame.mixer.Sound('src/assets/sounds/jump.mp3')
 
         # Coordinates Properties
         self.start_x, self.start_y = initial_coordinates
@@ -45,6 +53,7 @@ class Player(Physic, Drawable):
         self.hanging = False
         self.can_move = True
         self.frozen = False
+        self.impacted = False
 
         self.dash_index = 0
         self.cooldown = 25
@@ -120,6 +129,23 @@ class Player(Physic, Drawable):
 
         self.direction_of_player()
         self.direction_index = (self.x - self.start_x) / 8
+        self.player_sound_play()
+
+    def player_sound_play(self) -> None:
+        if self.sound_index != 0:
+            self.sound_index -= 1
+        if not self.frozen:
+            if self.running_left or self.running_right and not self.in_air:
+                self.play_sound(self.run_sound, FPS)
+            elif self.dashing:
+                self.play_sound(self.dash_sound, FPS)
+            else:
+                self.sound_index = 0
+                self.run_sound.stop()
+                self.dash_sound.stop()
+        else:
+            self.sound_index = 0
+            self.run_sound.stop()
 
     def jump(self) -> None:
         if not self.gravitation_power >= 0:
@@ -130,11 +156,13 @@ class Player(Physic, Drawable):
             self.jumping = True
             self.hanging = False
             self.previous_x = self.x
+            self.jump_sound.play()
         elif self.double_jump:
             self.jumping = True
             self.gravitation_power = 0
             self.gravitation_power -= self.jump_height
             self.double_jump = False
+            self.jump_sound.play()
 
     def dash(self) -> None:
         if self.dash_index != 10:
@@ -218,11 +246,13 @@ class Player(Physic, Drawable):
     def froze(self) -> None:
         self.speed = 0
         self.jump_height = 0
+        self.dash_speed = 0
         self.frozen = True
 
     def frostbite(self) -> None:
         self.speed = 6
         self.jump_height = 8
+        self.dash_speed = self.speed * 1.5
         self.frozen = False
 
     def show_player(self, screen, camera_x: int, camera_y: int, paused: bool) -> None:

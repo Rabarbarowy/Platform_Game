@@ -17,12 +17,14 @@ class Game:
         self.clock = Clock()
         self.event = EventManager()
         self.player = Player(INITIAL_COORDINATES, self.camera.y)
-        self.sound_manager = SoundManager()
+        self.sounds_manager = SoundManager()
 
     def run_game(self) -> None:
         while True:
+            self.sounds_manager.play_background_music()
             if not self.event.paused:
                 if self.window.view != self.window.old_view:
+                    self.sounds_manager.change_music(self.window.view)
                     self.window.change_level(self.player.x)
                     if self.window.reset_player_stats:
                         self.camera.reset_coordinates(INITIAL_COORDINATES)
@@ -39,11 +41,11 @@ class Game:
 
             self.clock.tick(FPS)
             self.window.show(self.player.direction_index, self.camera.x, self.camera.y)
-            self.window.repeat(self.player, self.event.clicked, self.event.key)
             self.event.update(self.window.view)
+            self.window.repeat(self.player, self.event.clicked, self.event.key)
 
             if not self.event.paused:
-                self.sound_manager.use_manager(self.player)
+                self.sounds_manager.unpause_sounds()
                 self.camera.update_position(self.player.x, self.player.y)
                 if self.window.draw_player:
                     self.player.repeat(
@@ -60,6 +62,7 @@ class Game:
                     self.window.draw_laser(self.camera.x, self.camera.y)
                     self.window.draw_buttons()
             else:
+                self.sounds_manager.pause_sounds()
                 self.player.show_player(
                     self.window.screen,
                     self.camera.x,

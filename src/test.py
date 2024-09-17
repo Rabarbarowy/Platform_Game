@@ -1,4 +1,4 @@
-# import pygame
+import pygame
 # from pygame.locals import *
 #
 # pygame.init()
@@ -38,14 +38,31 @@
 #
 #
 # Game().run()
+import pygame.mixer
+from pygame.time import Clock
 
-a = 'elo ściero'
-b = 'elo kolego'
-
-
-def siema(string1, string2):
-    if 'elo' in string1 and 'elo' in string2:
-        print(string1, string2)
+pygame.init()
 
 
-siema(a, b)
+def elo():
+    clock = Clock()
+    a = 0
+    elo = pygame.mixer.Sound('/home/krzysztof/dev/Platform_Game/src/assets/sounds/teleport_aura.mp3')
+    siema = pygame.mixer.Sound('/home/krzysztof/dev/Platform_Game/src/assets/sounds/teleport.mp3')
+    siema.set_volume(0.3)
+    channel1 = pygame.mixer.Channel(1)
+    channel2 = pygame.mixer.Channel(2)
+    while True:
+        clock.tick(1)
+        a += 1
+        print(a)
+        if a == 1:
+            channel1.play(siema)
+        if a >= 2:
+            elo.play()
+        if a >= 6:
+            pygame.mixer.pause()
+        if a >= 8:
+            pygame.mixer.unpause()
+
+elo()

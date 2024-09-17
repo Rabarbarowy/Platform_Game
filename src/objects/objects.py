@@ -35,12 +35,14 @@ class Spike(VisibleObject):
     def __init__(self, x: int, y: int, image, size_index: int) -> None:
         super().__init__(x=x, y=y, image=image, size_index=size_index, collision=False)
         self.dmg = 1
+        self.giving_damage_sound = pygame.mixer.Sound('src/assets/sounds/punch.mp3')
 
     def action(self, enemy) -> None:
         if enemy.hitbox.colliderect(self.hitbox):
             if not enemy.attacked:
                 enemy.attacked = True
                 enemy.hp -= self.dmg
+                self.giving_damage_sound.play()
 
 
 class Button(VisibleObject):
@@ -101,18 +103,23 @@ class SpecialBall(VisibleObject):
 
 
 class Teleporter(VisibleObject):
-    def __init__(self, x: int, y: int, next_level) -> None:
+    def __init__(self, x: int, y: int, next_level: str, sound) -> None:
         super().__init__(x=x, y=y, image=pygame.image.load('src/assets/images/teleporter.png'), size_index=3, collision=True)
         self.working_teleporter = self.transform_size(pygame.image.load('src/assets/images/working_teleporter.png'), 3)
+        self.aura_sound = sound
+        self.aura_sound.set_volume(0.5)
         self.next_level = next_level
 
-    def action(self, player, key: ScancodeWrapper) -> None:
+    def action(self, player, key: ScancodeWrapper):
         next = ''
         if player.hitbox.colliderect(self.hitbox):
+            self.aura_sound.play()
             self.image = self.working_teleporter
             if key[pygame.K_e]:
+                self.aura_sound.stop()
                 next = self.next_level
         else:
+            self.aura_sound.stop()
             self.image = self.source_image
             next = ''
 
@@ -121,8 +128,11 @@ class Teleporter(VisibleObject):
 
 
 class Laser(VisibleObject):
-    def __init__(self, x, y) -> None:
+    def __init__(self, x: int, y: int) -> None:
         super().__init__(x=x, y=y, image=pygame.image.load('src/assets/images/teleport_laser.png'), size_index=3, collision=False)
+        self.laser_sound = pygame.mixer.Sound('src/assets/sounds/teleport.mp3')
 
     def laser_animation(self) -> None:
         self.image = self.animation(self.source_image, (48 * 3, 200 * 3))
+        self.laser_sound.play()
+        self.laser_sound.set_volume(0.3)

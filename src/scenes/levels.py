@@ -12,6 +12,8 @@ red_ball = pygame.image.load('src/assets/images/red_ball.png')
 blue_ball = pygame.image.load('src/assets/images/blue_ball.png')
 green_ball = pygame.image.load('src/assets/images/green_ball.png')
 
+aura_sound = pygame.mixer.Sound('src/assets/sounds/teleport_aura.mp3')
+
 
 class LevelChanger(Scene):
     def __init__(self) -> None:
@@ -115,7 +117,7 @@ class LevelChanger(Scene):
             Spike(3080, 279, spike2, 3),
         ]
         self.teleporters = [
-            Teleporter(3220, 156, 'level2'),
+            Teleporter(3220, 156, 'level2', aura_sound),
         ]
         self.buttons = []
 
@@ -176,6 +178,6 @@ class LevelChanger(Scene):
             Spike(4078, 1279, spike, 3),
         ]
         self.teleporters = [
-            Teleporter(4720, 606, 'level2'),
+            Teleporter(4720, 606, 'level2', aura_sound),
         ]
         self.buttons = []
