@@ -13,6 +13,7 @@ class VisibleObject(Drawable):
         self.y = y
         self.collision = collision
         self.frame_position = 0
+        self.need_to_active = False
 
 
 class Heart(VisibleObject):
@@ -70,9 +71,12 @@ class SpecialBall(VisibleObject):
         self.active = True
         self.cooldown = 0
         self.inactive_ball = self.transform_size(pygame.image.load('src/assets/images/grey_ball.png'), 3)
+        self.image_to_draw = self.source_image
+        self.need_to_active = True
 
     def action(self, player) -> None:
         self.check_active()
+        self.image = self.animation(self.image_to_draw, (16*3, 16*3))
         if player.hitbox.colliderect(self.hitbox):
             if self.active:
                 if self.color == 'red':
@@ -89,17 +93,22 @@ class SpecialBall(VisibleObject):
 
     def blue_action(self, player) -> None:
         player.dash_index = 0
+        player.cooldown_index = player.cooldown
 
     def green_action(self, player) -> None:
         if self.cooldown == 0:
             player.double_jump = True
             self.active = False
+            self.cooldown = 300
 
     def check_active(self) -> None:
         if self.active:
-            self.image = self.source_image
+            self.image_to_draw = self.source_image
         else:
-            self.image = self.inactive_ball
+            self.image_to_draw = self.inactive_ball
+            self.cooldown -= 1
+            if self.cooldown == 0:
+                self.active = True
 
 
 class Teleporter(VisibleObject):
@@ -136,3 +145,43 @@ class Laser(VisibleObject):
         self.image = self.animation(self.source_image, (48 * 3, 200 * 3))
         self.laser_sound.play()
         self.laser_sound.set_volume(0.3)
+
+
+class Saw(VisibleObject):
+    def __init__(self, x: int, y: int, size_index: int, speed: int, direction: str) -> None:
+        super().__init__(x=x, y=y, image=pygame.image.load('src/assets/images/obstacles/saw.png'), size_index=size_index, collision=False)
+        self.source_speed = speed
+        self.speed = self.source_speed
+        self.direction = direction
+        self.dmg = 2
+        self.giving_damage_sound = pygame.mixer.Sound('src/assets/sounds/punch.mp3')
+
+    def action(self, enemy) -> None:
+        self.image = self.animation(self.source_image, [66, 66])
+        if self.direction == 'right':
+            self.x += self.speed
+            if self.speed <= 0:
+                self.speed = self.source_speed
+                self.direction = 'left'
+        elif self.direction == 'left':
+            self.x -= self.speed
+            if self.speed <= 0:
+                self.speed = self.source_speed
+                self.direction = 'right'
+        elif self.direction == 'top':
+            self.y -= self.speed
+            if self.speed <= 0:
+                self.speed = self.source_speed
+                self.direction = 'down'
+        elif self.direction == 'down':
+            self.y += self.speed
+            if self.speed <= 0:
+                self.speed = self.source_speed
+                self.direction = 'top'
+        self.speed -= 0.5
+
+        if enemy.hitbox.colliderect(self.hitbox):
+            if not enemy.attacked:
+                enemy.attacked = True
+                enemy.hp -= self.dmg
+                self.giving_damage_sound.play()

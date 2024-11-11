@@ -1,3 +1,5 @@
+from xml.etree.ElementPath import xpath_tokenizer
+
 import pygame
 from pygame.key import ScancodeWrapper
 
@@ -34,6 +36,7 @@ class Player(Physic, Drawable, SoundManager):
         self.x = self.start_x
         self.y = self.start_y
         self.previous_x = self.x
+        self.previous_y = self.y
 
         # Statistics Property
         self.speed = 6
@@ -54,6 +57,7 @@ class Player(Physic, Drawable, SoundManager):
         self.can_move = True
         self.frozen = False
         self.impacted = False
+        self.died = False
 
         self.dash_index = 0
         self.cooldown = 25
@@ -66,7 +70,7 @@ class Player(Physic, Drawable, SoundManager):
         self.gravitation_index = GravitationIndex(self.width, self.height)
 
         # HP Properties
-        self.max_hp = 3
+        self.max_hp = 4
         self.hp = self.max_hp
         self.immortal_time = 0
         self.life_bar = [
@@ -156,11 +160,12 @@ class Player(Physic, Drawable, SoundManager):
             self.jumping = True
             self.hanging = False
             self.previous_x = self.x
+            self.previous_y = self.y
             self.jump_sound.play()
         elif self.double_jump:
             self.jumping = True
             self.gravitation_power = 0
-            self.gravitation_power -= self.jump_height
+            self.gravitation_power -= self.jump_height + 3
             self.double_jump = False
             self.jump_sound.play()
 
@@ -219,15 +224,16 @@ class Player(Physic, Drawable, SoundManager):
                 self.attacked = False
 
     def die(self) -> None:
-        if self.hp == 0:
+        if self.hp <= 0:
             self.hp = self.max_hp
             self.x = self.start_x
             self.y = self.start_y
             self.in_air = True
+            self.died = True
 
-        if self.y >= 1500:
+        if self.y >= 1800:
             self.hp -= 1
-            self.y = self.start_y
+            self.y = self.previous_y
             self.x = self.previous_x
             self.gravitation_power = 1
             self.attacked = True
@@ -269,6 +275,7 @@ class Player(Physic, Drawable, SoundManager):
             self.hanging = False
 
     def repeat(self, key: ScancodeWrapper, player, second_objects) -> None:
+        print(self.x, self.y)
         self.immortal()
         previous_x = self.x
         self.gravitation_index.update_position(self.x, self.y)

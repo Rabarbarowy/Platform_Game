@@ -18,7 +18,8 @@ class Scene:
         self.background_image = self.background.img
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.old_view = ''
-        self.view = 'menu'
+        # self.view = 'menu'
+        self.view = 'level9'
 
         self.draw_player = True
         self.objects_to_draw = []
@@ -60,6 +61,13 @@ class Scene:
             changed_level = element.action(player, key)
             if changed_level != '':
                 self.view = element.next_level
+
+        if player.died:
+            for element in self.special_objects:
+                if element.need_to_active:
+                    element.active = True
+                    element.cooldown = 0
+            player.died = False
 
         for button in self.buttons:
             button.check_action(clicked)

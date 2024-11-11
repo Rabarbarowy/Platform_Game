@@ -10,6 +10,7 @@ BACKGROUND_IMAGE = pygame.image.load('src/assets/images/background.png')
 #  time
 FPS = 60
 
-# player
+#  player
+# INITIAL_COORDINATES = [1880, -1200]
 INITIAL_COORDINATES = [350, 0]
-# 350
+# 350 0
