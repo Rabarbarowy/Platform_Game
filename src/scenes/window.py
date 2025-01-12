@@ -1,7 +1,7 @@
 import pygame
 from pygame.key import ScancodeWrapper
 
-from src.constants import WINDOW_WIDTH, WINDOW_HEIGHT, BACKGROUND_IMAGE
+from src.constants import WINDOW_WIDTH, WINDOW_HEIGHT
 from src.objects.objects import Button
 from src.objects.player import Player
 from src.sprite import Sprite
@@ -12,14 +12,17 @@ class Scene:
         self.width = WINDOW_WIDTH
         self.height = WINDOW_HEIGHT
 
-        self.background = Background(BACKGROUND_IMAGE)
+        self.landscape_image = pygame.image.load('src/assets/images/background.png')
+        self.castle_interior_image = pygame.image.load('src/assets/images/castle_background.png')
+        self.background = Background(self.landscape_image)
+        self.change_background_index = 110
 
         self.background_color = (234, 212, 252)
         self.background_image = self.background.img
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.old_view = ''
         # self.view = 'menu'
-        self.view = 'level9'
+        self.view = 'level13'
 
         self.draw_player = True
         self.objects_to_draw = []
@@ -79,6 +82,8 @@ class Scene:
                 elif button.name == 'exit':
                     raise SystemExit
 
+        self.change_background()
+
     def draw_buttons(self) -> None:
         for button in self.buttons:
             button.draw(self.screen, button.x, button.y, True)
@@ -99,6 +104,18 @@ class Scene:
                 elif button.name == 'resume':
                     self.pause_index = True
                 button.pressed = False
+
+    def change_background(self) -> None:
+        if len(self.view) > 6:
+            if self.change_background_index == 0:
+                self.background = Background(self.castle_interior_image)
+                self.background_image = self.background.img
+                self.change_background_index = 110
+            else:
+                self.change_background_index -= 1
+        else:
+            self.background = Background(self.landscape_image)
+            self.background_image = self.background.img
 
 
 class Background(Sprite):

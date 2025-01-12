@@ -1,3 +1,6 @@
+from gzip import GzipFile
+from symtable import Class
+
 import pygame
 from pygame.key import ScancodeWrapper
 
@@ -113,7 +116,7 @@ class SpecialBall(VisibleObject):
 
 class Teleporter(VisibleObject):
     def __init__(self, x: int, y: int, next_level: str, sound) -> None:
-        super().__init__(x=x, y=y, image=pygame.image.load('src/assets/images/teleporter.png'), size_index=3, collision=True)
+        super().__init__(x=x, y=y, image=pygame.image.load('src/assets/images/teleporter.png'), size_index=3, collision=False)
         self.working_teleporter = self.transform_size(pygame.image.load('src/assets/images/working_teleporter.png'), 3)
         self.aura_sound = sound
         self.aura_sound.set_volume(0.5)
@@ -155,9 +158,10 @@ class Saw(VisibleObject):
         self.direction = direction
         self.dmg = 2
         self.giving_damage_sound = pygame.mixer.Sound('src/assets/sounds/punch.mp3')
+        self.size_index = size_index
 
     def action(self, enemy) -> None:
-        self.image = self.animation(self.source_image, [66, 66])
+        self.image = self.animation(self.source_image, [22 * self.size_index, 22 * self.size_index])
         if self.direction == 'right':
             self.x += self.speed
             if self.speed <= 0:
@@ -185,3 +189,52 @@ class Saw(VisibleObject):
                 enemy.attacked = True
                 enemy.hp -= self.dmg
                 self.giving_damage_sound.play()
+
+
+class Castle(VisibleObject):
+    def __init__(self, x: int, y: int) -> None:
+        super().__init__(x=x, y=y, image=pygame.image.load('src/assets/images/castle/castle.png'), size_index=3, collision=False)
+
+    def action(self, player) -> None:
+        if player.hitbox.colliderect(self.hitbox):
+            player.walking = True
+        else:
+            player.walking = False
+
+
+class Gate(VisibleObject):
+    def __init__(self, x: int, y: int, next_level: str) -> None:
+        super().__init__(x=x, y=y, image=pygame.image.load('src/assets/images/castle/gate.png'), size_index=3, collision=False)
+        self.opening_gate = self.transform_size(pygame.image.load('src/assets/images/castle/opening_gate.png'), 3)
+        self.open_gate_image = self.transform_size(pygame.image.load('src/assets/images/castle/open_gate.png'), 3)
+        self.next_level = next_level
+        self.gate_animation_index = 0
+        self.enter_gate = False
+
+    def gate_animation(self) -> None:
+        if self.gate_animation_index <= 45:
+            self.gate_animation_index += 1
+            self.image = self.animation(self.opening_gate, (36 * 3, 50 * 3))
+        else:
+            self.image = self.open_gate_image
+
+    def action(self, player, key: ScancodeWrapper):
+        next = ''
+        if player.hitbox.colliderect(self.hitbox) and self.x - player.x <= 4 and self.x - player.x >= -19:
+            if key[pygame.K_e]:
+                self.enter_gate = True
+                next = self.next_level
+
+        if self.enter_gate:
+            self.gate_animation()
+            if self.gate_animation_index >= 50:
+                self.enter_gate = False
+
+        return next
+
+class Flag(VisibleObject):
+    def __init__(self, x: int, y: int):
+        super().__init__(x=x, y=y, image=pygame.image.load('src/assets/images/castle/flag.png'), size_index=3, collision=False)
+
+    def action(self, player) -> None:
+        self.image = self.animation(self.source_image, (63, 84))

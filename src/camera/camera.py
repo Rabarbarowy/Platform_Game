@@ -1,4 +1,4 @@
-from src.constants import WINDOW_HEIGHT, WINDOW_WIDTH, BACKGROUND_IMAGE
+from src.constants import WINDOW_HEIGHT, WINDOW_WIDTH
 
 
 class Camera:
@@ -8,7 +8,6 @@ class Camera:
         self.middle_of_x = WINDOW_WIDTH / 2.2
         self.middle_of_y = WINDOW_HEIGHT / 2.5
         self.middle_of_map = middle_of_map
-        self.background_img = BACKGROUND_IMAGE
 
     def update_position(self, player_x: int, player_y: int) -> None:
         if self.x > player_x - self.middle_of_x:

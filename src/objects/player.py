@@ -23,6 +23,7 @@ class Player(Physic, Drawable, SoundManager):
         self.falling_image = self.transform_size(pygame.image.load('src/assets/images/player/rabarbarowy_falling.png'), 3)
         self.dash_image = self.transform_size(pygame.image.load('src/assets/images/player/rabarbarowy_dash.png'), 3)
         self.hanging_image = self.transform_size(pygame.image.load('src/assets/images/player/rabarbarowy_hanging.png'), 3)
+        self.entering_gate_image = self.transform_size(pygame.image.load('src/assets/images/player/rabarbarowy_entering_gate.png'), 3)
         self.image = self.source_image
         self.life_element = pygame.image.load('src/assets/images/life_element.png')
 
@@ -37,6 +38,10 @@ class Player(Physic, Drawable, SoundManager):
         self.y = self.start_y
         self.previous_x = self.x
         self.previous_y = self.y
+
+        # Hitbox Properties
+        self.left_hitbox_reduction = 20
+        self.right_hitbox_reduction = 40
 
         # Statistics Property
         self.speed = 6
@@ -58,6 +63,7 @@ class Player(Physic, Drawable, SoundManager):
         self.frozen = False
         self.impacted = False
         self.died = False
+        self.entering_gate = False
 
         self.dash_index = 0
         self.cooldown = 25
@@ -67,7 +73,7 @@ class Player(Physic, Drawable, SoundManager):
         self.direction = 'right'
         self.direction_index = self.x - self.start_x
 
-        self.gravitation_index = GravitationIndex(self.width, self.height)
+        self.gravitation_index = GravitationIndex(self.width, self.height, self.right_hitbox_reduction, self.left_hitbox_reduction)
 
         # HP Properties
         self.max_hp = 4
@@ -280,6 +286,11 @@ class Player(Physic, Drawable, SoundManager):
         previous_x = self.x
         self.gravitation_index.update_position(self.x, self.y)
         self.move(key)
+
+        if self.frozen:
+            self.image = self.source_image
+        if self.entering_gate:
+            self.image = self.entering_gate_image
         self.image = self.animation(self.image, [66, self.height])
 
         self.y = self.gravitation(self.y)
@@ -289,23 +300,22 @@ class Player(Physic, Drawable, SoundManager):
         if self.cooldown != self.cooldown_index:
             self.cooldown_index += 1
 
-        if self.frozen:
-            self.image = self.source_image
-
         self.hang()
         self.collided = False
 
 
 class GravitationIndex:
-    def __init__(self, player_width: int, player_height: int) -> None:
+    def __init__(self, player_width: int, player_height: int, right_hitbox_reduction: int, left_hitbox_reduction: int) -> None:
         self.x = 0
         self.y = 0
+        self.left_hitbox_reduction = left_hitbox_reduction
+        self.right_hitbox_reduction = right_hitbox_reduction
         self.height = 1
-        self.width = player_width
+        self.width = player_width - self.right_hitbox_reduction
         self.player_height = player_height
 
     def update_position(self, player_x: int, player_y: int) -> None:
-        self.x = player_x
+        self.x = player_x + self.left_hitbox_reduction
         self.y = player_y + self.player_height + 1
 
     @property

@@ -25,7 +25,7 @@ class Game:
             if not self.event.paused:
                 if self.window.view != self.window.old_view:
                     self.sounds_manager.change_music(self.window.view)
-                    self.window.change_level(self.player.x)
+                    self.window.change_level(self.player)
                     if self.window.reset_player_stats:
                         self.camera.reset_coordinates(INITIAL_COORDINATES)
                         self.player.reset_statistic()
