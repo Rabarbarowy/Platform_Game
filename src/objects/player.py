@@ -121,11 +121,10 @@ class Player(Physic, Drawable, SoundManager):
 
         if key[pygame.K_LSHIFT]:
             if self.cooldown_index == self.cooldown:
-                self.dash()
-        else:
-            self.dashing = False
+                self.dashing = True
 
         if self.dashing:
+            self.dash()
             self.image = self.dash_image
         elif not self.running_right and not self.running_left and not self.jumping and not self.falling:
             self.image = self.source_image
@@ -177,7 +176,6 @@ class Player(Physic, Drawable, SoundManager):
 
     def dash(self) -> None:
         if self.dash_index != 10:
-            self.dashing = True
             if self.direction == 'right':
                 self.x += self.dash_speed
             elif self.direction == 'left':
