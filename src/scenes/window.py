@@ -21,8 +21,8 @@ class Scene:
         self.background_image = self.background.img
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.old_view = ''
-        # self.view = 'menu'
-        self.view = 'level13'
+        self.view = 'menu'
+        # self.view = 'level15'
 
         self.draw_player = True
         self.objects_to_draw = []

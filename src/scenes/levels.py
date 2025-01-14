@@ -111,6 +111,8 @@ class LevelChanger(Scene):
                     self.level13()
                 if self.view == 'level14':
                     self.level14()
+                if self.view == 'level15':
+                    self.level15()
                 self.reset_player_stats = True
                 self.level_changed = True
                 self.old_view = self.view
@@ -638,7 +640,7 @@ class LevelChanger(Scene):
             VisibleObject(4500, 100, brick_platform3, 3, True),
             VisibleObject(4700, 45, brick_platform2, 3, True),
             VisibleObject(4700, -300, brick_platform2, 3, True),
-            VisibleObject(4748, -250, brick_platform3, 3, True),
+            VisibleObject(4748, -200, brick_platform3, 3, True),
             VisibleObject(4300, -600, brick_platform, 3, True),
             VisibleObject(4108, -600, brick_platform, 3, True),
             VisibleObject(3916, -600, brick_platform, 3, True),
@@ -689,8 +691,6 @@ class LevelChanger(Scene):
             VisibleObject(850, -250, brick_platform3, 3, True),
             VisibleObject(900, -200, brick_platform, 3, True),
             VisibleObject(1100, -150, brick_platform3, 3, True),
-
-
             VisibleObject(1070, 100, brick_platform2, 3, False),
             VisibleObject(1070, -102, brick_platform2, 3, False),
             VisibleObject(1250, 200, brick_platform3, 3, True),
@@ -889,6 +889,15 @@ class LevelChanger(Scene):
             VisibleObject(3408, -850, brick_platform, 3, True),
             VisibleObject(3216, -850, brick_platform, 3, True),
             VisibleObject(3024, -850, brick_platform, 3, True),
+            VisibleObject(2800, -650, brick_platform3, 3, True),
+            VisibleObject(3750, -1200, brick_platform2, 3, True),
+            VisibleObject(3600, -1300, brick_platform3, 3, True),
+            VisibleObject(3750, -1480, brick_platform3, 3, True),
+            VisibleObject(3780, -1480, brick_platform3, 3, True),
+            VisibleObject(4000, -1400, brick_platform3, 3, True),
+            VisibleObject(3200, -1780, brick_platform, 3, True),
+            VisibleObject(3008, -1780, brick_platform, 3, True),
+            VisibleObject(2816, -1780, brick_platform, 3, True),
         ]
         self.special_objects = [
             Saw(1051, 210, 3, 0, 'down'),
@@ -912,7 +921,34 @@ class LevelChanger(Scene):
             SpecialBall(4150, -400, green_ball, 'green'),
             SpecialBall(4000, -550, green_ball, 'green'),
             Saw(3550, -650, 5, 0, 'down'),
-            Saw(3350, -850, 5, 0, 'down'),
+            Saw(3380, -850, 5, 0, 'down'),
+            Saw(3210, -650, 5, 0, 'down'),
+            Saw(3040, -850, 5, 0, 'down'),
+            Saw(3130, -900, 3, 0, 'down'),
+            Saw(3130, -1110, 3, 0, 'down'),
+            Saw(3400, -900, 3, 0, 'down'),
+            Saw(3400, -1110, 3, 0, 'down'),
+            SpecialBall(3700, -900, red_ball, 'red'),
+            SpecialBall(3700, -950, red_ball, 'red'),
+            Spike(3753, -1221, spike2, 3),
+            Spike(3603, -1321, spike2, 3),
+            Spike(3753, -1432, spike3, 3),
+            SpecialBall(3760, -1350, blue_ball, 'blue'),
+            SpecialBall(3530, -1680, green_ball, 'green'),
+        ]
+        self.teleporters = [
+            Teleporter(3040, -1924, 'level15', aura_sound),
+        ]
+        self.buttons = []
+
+    def level15(self) -> None:
+        self.draw_player = True
+        self.objects_to_draw = [
+            VisibleObject(290, -10000, platform, 3, True),
+            VisibleObject(290, 300, brick_platform, 3, True),
+        ]
+        self.special_objects = [
+
         ]
         self.teleporters = [
 
