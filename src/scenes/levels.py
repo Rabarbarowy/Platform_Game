@@ -133,6 +133,7 @@ class LevelChanger(Scene):
     def enter_gate_animation(self, player: Player) -> None:
         player.entering_gate = True
         self.change_level_animation_index -= 1
+        print(self.change_level_animation_index)
         if self.change_level_animation_index == 50:
             self.change_level_animation_index = self.time_index
             player.entering_gate = False
@@ -151,6 +152,9 @@ class LevelChanger(Scene):
     def level1(self) -> None:
         self.draw_player = True
         self.objects_to_draw = [
+            #
+            VisibleObject(2600, -1850, platform, 3, True),
+            #
             VisibleObject(290, -1000, platform, 3, True),
             VisibleObject(290, 300, platform, 3, True),
             VisibleObject(482, 300, platform, 3, True),
