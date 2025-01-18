@@ -848,7 +848,7 @@ class LevelChanger(Scene):
             Spike(-2240, -171, spike, 3),
             Spike(-2547, -371, spike2, 3),
             SpecialBall(-2170, -560, blue_ball, 'blue'),
-            SpecialBall(-1680, -650, blue_ball, 'blue'),
+            SpecialBall(-1700, -650, blue_ball, 'blue'),
             SpecialBall(-1400, -650, green_ball, 'green'),
             Saw(-1800, -1100, 3, 20, 'down'),
             Spike(-1855, -921, spike2, 3),
