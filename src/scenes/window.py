@@ -23,7 +23,7 @@ class Scene:
         self.what_background = 'landscape'
         self.old_view = ''
         self.view = 'menu'
-        # self.view = 'level15'
+        # self.view = 'level10'
 
         self.draw_player = True
         self.objects_to_draw = []

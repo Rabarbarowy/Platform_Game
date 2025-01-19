@@ -1,5 +1,6 @@
 import pygame
-from src.objects.objects import VisibleObject, Spike, SpecialBall, Teleporter, Button, Laser, Saw, Castle, Flag, Gate
+from src.objects.objects import VisibleObject, Spike, SpecialBall, Teleporter, Button, Laser, Saw, Castle, Flag, Gate, \
+    FakePlatform
 from src.objects.player import Player
 from src.scenes.window import Scene
 
@@ -164,7 +165,7 @@ class LevelChanger(Scene):
             VisibleObject(1400, 300, platform, 3, True),
             VisibleObject(1800, 250, platform3, 3, True),
             VisibleObject(2100, 200, platform3, 3, True),
-            VisibleObject(2400, 200, platform, 3, False),
+            # VisibleObject(2400, 200, platform, 3, False),
             VisibleObject(2500, 600, platform, 3, True),
             VisibleObject(2800, 530, platform, 3, True),
             VisibleObject(3100, 450, platform, 3, True),
@@ -188,6 +189,7 @@ class LevelChanger(Scene):
         ]
         self.special_objects = [
             Spike(2512, 579, spike, 3),
+            FakePlatform(2400, 200, platform, 3),
             Spike(4403, 279, spike2, 3),
         ]
         self.teleporters = [
@@ -299,7 +301,7 @@ class LevelChanger(Scene):
             VisibleObject(1600, 100, platform3, 3, True),
             VisibleObject(1900, 100, platform3, 3, True),
             VisibleObject(2200, 400, platform, 3, True),
-            VisibleObject(2650, 400, platform3, 3, False),
+            # VisibleObject(2650, 400, platform3, 3, False),
             VisibleObject(2900, 300, platform, 3, True),
             VisibleObject(2700, 1200, platform, 3, True),
             VisibleObject(2892, 1200, platform, 3, True),
@@ -337,6 +339,8 @@ class LevelChanger(Scene):
             Saw(3850, 400, 3, 30, 'down'),
             Spike(4682, 599, spike, 3),
             Saw(5000, 700, 3, 20, 'right'),
+            FakePlatform(2650, 400, platform3, 3),
+
         ]
         self.teleporters = [
             Teleporter(5820, 956, 'level5', aura_sound),
@@ -450,7 +454,7 @@ class LevelChanger(Scene):
             VisibleObject(1400, -800, platform3, 3, True),
             VisibleObject(1300, -1000, platform3, 3, True),
             VisibleObject(200, -1100, platform, 3, True),
-            VisibleObject(8, -1100, platform, 3, False),
+            # VisibleObject(8, -1100, platform, 3, False),
             VisibleObject(-184, -1100, platform, 3, True),
             VisibleObject(-184, -1310, platform2, 3, True),
             VisibleObject(0, -1400, platform3, 3, True),
@@ -485,6 +489,7 @@ class LevelChanger(Scene):
             Spike(553, -2371, spike2, 3),
             Spike(703, -2471, spike2, 3),
             SpecialBall(500, -2650, green_ball, 'green'),
+            FakePlatform(8, -1100, platform, 3),
         ]
         self.teleporters = [
             Teleporter(1620, -2444, 'level8', aura_sound),
@@ -514,8 +519,9 @@ class LevelChanger(Scene):
             VisibleObject(600, -500, platform3, 3, True),
             VisibleObject(700, -600, platform3, 3, True),
             VisibleObject(800, -700, platform3, 3, True),
-            VisibleObject(900, -800, platform3, 3, False),
-            VisibleObject(1000, -900, platform3, 3, False),
+
+            # VisibleObject(900, -800, platform3, 3, False),
+            # VisibleObject(1000, -900, platform3, 3, False),
             VisibleObject(1100, -1000, platform3, 3, True),
             VisibleObject(1200, -1100, platform3, 3, True),
 
@@ -549,6 +555,8 @@ class LevelChanger(Scene):
             Saw(1900, -250, 3, 20, 'top'),
             Saw(2100, -680, 3, 20, 'down'),
             SpecialBall(1300, -950, green_ball, 'green'),
+            FakePlatform(900, -800, platform3, 3),
+            FakePlatform(1000, -900, platform3, 3),
         ]
         self.teleporters = [
             Teleporter(2320, -1144, 'level9', aura_sound),
@@ -624,7 +632,7 @@ class LevelChanger(Scene):
             VisibleObject(140, 0, brick_platform3, 3, True),
             VisibleObject(140, -200, brick_platform3, 3, True),
             VisibleObject(340, -300, brick_platform, 3, True),
-            VisibleObject(1200, -350, brick_platform, 3, False),
+            # VisibleObject(1200, -350, brick_platform, 3, False),
             VisibleObject(1350, -130, brick_platform, 3, True),
             VisibleObject(1650, -200, brick_platform2, 3, True),
             VisibleObject(1650, -570, brick_platform2, 3, True),
@@ -653,7 +661,7 @@ class LevelChanger(Scene):
             VisibleObject(5300, -650, brick_platform3, 3, True),
             VisibleObject(5700, -500, brick_platform, 3, True),
             VisibleObject(5892, -500, brick_platform, 3, True),
-            VisibleObject(6084, -500, brick_platform, 3, False),
+            # VisibleObject(6084, -500, brick_platform, 3, False),
             VisibleObject(6276, -500, brick_platform, 3, True),
             VisibleObject(6468, -500, brick_platform, 3, True),
             VisibleObject(6660, -500, brick_platform, 3, True),
@@ -677,6 +685,8 @@ class LevelChanger(Scene):
             SpecialBall(4550, -500, green_ball, 'green'),
             SpecialBall(4000, -720, red_ball, 'red'),
             Saw(5305, -330, 2, 23, 'top'),
+            FakePlatform(1200, -350, brick_platform, 3),
+            FakePlatform(6084, -500, brick_platform, 3),
         ]
         self.teleporters = [
             Teleporter(6500, -644, 'level11', aura_sound),
@@ -695,10 +705,10 @@ class LevelChanger(Scene):
             VisibleObject(850, -250, brick_platform3, 3, True),
             VisibleObject(900, -200, brick_platform, 3, True),
             VisibleObject(1100, -150, brick_platform3, 3, True),
-            VisibleObject(1070, 100, brick_platform2, 3, False),
-            VisibleObject(1070, -102, brick_platform2, 3, False),
+            # VisibleObject(1070, 100, brick_platform2, 3, False),
+            # VisibleObject(1070, -102, brick_platform2, 3, False),
             VisibleObject(1250, 200, brick_platform3, 3, True),
-            VisibleObject(1600, 150, brick_platform, 3, False),
+            # VisibleObject(1600, 150, brick_platform, 3, False),
             VisibleObject(1900, 150, brick_platform, 3, True),
             VisibleObject(1600, 550, brick_platform, 3, True),
             VisibleObject(1792, 550, brick_platform, 3, True),
@@ -730,6 +740,9 @@ class LevelChanger(Scene):
             Saw(2700, -300, 3, 20, 'down'),
             Saw(2900, 100, 3, 20, 'top'),
             Saw(3100, -300, 3, 20, 'down'),
+            FakePlatform(1070, 100, brick_platform2, 3),
+            FakePlatform(1070, -102, brick_platform2, 3),
+            FakePlatform(1600, 150, brick_platform, 3),
         ]
         self.teleporters = [
             Teleporter(5020, -144, 'level12', aura_sound),

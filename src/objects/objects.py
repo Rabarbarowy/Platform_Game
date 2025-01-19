@@ -232,6 +232,20 @@ class Gate(VisibleObject):
 
         return next
 
+
+class FakePlatform(VisibleObject):
+    def __init__(self, x: int, y: int, image, size_index: int) -> None:
+        super().__init__(x=x, y=y, image=image, size_index=size_index, collision=False)
+        self.frame_position = 0
+        self.need_to_active = False
+
+    def action(self, player) -> None:
+        if player.hitbox.colliderect(self.hitbox):
+            self.image.set_alpha(100)
+        else:
+            self.image.set_alpha(300)
+
+
 class Flag(VisibleObject):
     def __init__(self, x: int, y: int):
         super().__init__(x=x, y=y, image=pygame.image.load('src/assets/images/castle/flag.png'), size_index=3, collision=False)
