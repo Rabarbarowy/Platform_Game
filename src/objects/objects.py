@@ -247,8 +247,45 @@ class FakePlatform(VisibleObject):
 
 
 class Flag(VisibleObject):
-    def __init__(self, x: int, y: int):
+    def __init__(self, x: int, y: int) -> None:
         super().__init__(x=x, y=y, image=pygame.image.load('src/assets/images/castle/flag.png'), size_index=3, collision=False)
 
     def action(self, player) -> None:
         self.image = self.animation(self.source_image, (63, 84))
+
+
+class Door(VisibleObject):
+    def __init__(self, x: int, y: int) -> None:
+        super().__init__(x=x, y=y, image=pygame.image.load('src/assets/images/closed_door.png'), size_index=3, collision=True)
+        self.opened_door = pygame.image.load('src/assets/images/opened_door.png')
+        self.opening_door = pygame.image.load('src/assets/images/opening_door.png')
+        self.door_animation_index = 60
+        self.start_animation = False
+
+    def opening_animation(self) -> None:
+        if self.door_animation_index > 0:
+            self.door_animation_index -= 1
+            self.image = self.transform_size(self.animation(self.opening_door, (38, 48)), 3)
+        else:
+            self.image = self.transform_size(self.opened_door, 3)
+            self.collision = False
+
+    def action(self, player) -> None:
+        if self.hitbox.colliderect(player.hitbox):
+            if player.have_key:
+                self.start_animation = True
+            else:
+                player.x = player.previous_x
+
+        if self.start_animation:
+            self.opening_animation()
+
+
+class Key(VisibleObject):
+    def __init__(self, x: int, y: int) -> None:
+        super().__init__(x=x, y=y, image=pygame.image.load('src/assets/images/key.png'), size_index=3, collision=False)
+
+    def action(self, player) -> None:
+        if self.hitbox.colliderect(player.hitbox):
+            player.have_key = True
+            self.image.set_alpha(0)

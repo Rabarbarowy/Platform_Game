@@ -1,6 +1,6 @@
 import pygame
 from src.objects.objects import VisibleObject, Spike, SpecialBall, Teleporter, Button, Laser, Saw, Castle, Flag, Gate, \
-    FakePlatform
+    FakePlatform, Door, Key
 from src.objects.player import Player
 from src.scenes.window import Scene
 
@@ -963,9 +963,15 @@ class LevelChanger(Scene):
         self.objects_to_draw = [
             VisibleObject(290, -10000, platform, 3, True),
             VisibleObject(290, 300, brick_platform, 3, True),
+            VisibleObject(482, 300, brick_platform, 3, True),
+            VisibleObject(674, 300, brick_platform, 3, True),
+            VisibleObject(1058, 300, brick_platform, 3, True),
+            VisibleObject(1250, 300, brick_platform, 3, True),
         ]
         self.special_objects = [
-
+            FakePlatform(866, 300, brick_platform, 3),
+            Key(500, 150),
+            Door(1260, 156),
         ]
         self.teleporters = [
 

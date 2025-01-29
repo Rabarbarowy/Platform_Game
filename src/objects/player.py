@@ -64,6 +64,7 @@ class Player(Physic, Drawable, SoundManager):
         self.impacted = False
         self.died = False
         self.entering_gate = False
+        self.have_key = False
 
         self.dash_index = 0
         self.cooldown = 25
@@ -164,7 +165,7 @@ class Player(Physic, Drawable, SoundManager):
             self.in_air = True
             self.jumping = True
             self.hanging = False
-            self.previous_x = self.x
+            # self.previous_x = self.x
             self.previous_y = self.y
             self.jump_sound.play()
         elif self.double_jump:
@@ -252,6 +253,7 @@ class Player(Physic, Drawable, SoundManager):
         self.immortal_time = 0
         self.invisible_time = 0
         self.direction = 'right'
+        self.have_key = False
 
     def froze(self) -> None:
         self.speed = 0
@@ -282,6 +284,7 @@ class Player(Physic, Drawable, SoundManager):
         # print(self.x, self.y)
         self.immortal()
         previous_x = self.x
+        self.previous_x = previous_x
         self.gravitation_index.update_position(self.x, self.y)
         self.move(key)
 
