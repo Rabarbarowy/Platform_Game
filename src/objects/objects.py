@@ -288,4 +288,6 @@ class Key(VisibleObject):
     def action(self, player) -> None:
         if self.hitbox.colliderect(player.hitbox):
             player.have_key = True
+            player.start_x = self.x
+            player.start_y = self.y
             self.image.set_alpha(0)

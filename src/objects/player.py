@@ -4,7 +4,7 @@ import pygame
 from pygame.key import ScancodeWrapper
 
 from src.animation import AnimateSprite
-from src.constants import FPS
+from src.constants import FPS, INITIAL_COORDINATES
 from src.display import Drawable
 from src.objects.objects import VisibleObject, Heart
 from src.physic import Physic
@@ -165,8 +165,6 @@ class Player(Physic, Drawable, SoundManager):
             self.in_air = True
             self.jumping = True
             self.hanging = False
-            # self.previous_x = self.x
-            self.previous_y = self.y
             self.jump_sound.play()
         elif self.double_jump:
             self.jumping = True
@@ -237,13 +235,14 @@ class Player(Physic, Drawable, SoundManager):
             self.died = True
 
         if self.y >= 1800:
-            self.hp -= 1
-            self.y = self.previous_y
-            self.x = self.previous_x
-            self.gravitation_power = 1
-            self.attacked = True
+            self.hp = 0
+            # self.y = self.start_y
+            # self.x = self.start_x
+            # self.gravitation_power = 1
+            # self.attacked = True
 
     def reset_statistic(self) -> None:
+        self.start_x, self.start_y = INITIAL_COORDINATES
         self.x = self.start_x
         self.y = self.start_y
         self.hp = self.max_hp
@@ -281,7 +280,7 @@ class Player(Physic, Drawable, SoundManager):
             self.hanging = False
 
     def repeat(self, key: ScancodeWrapper, player, second_objects) -> None:
-        # print(self.x, self.y)
+        print(self.x, self.y)
         self.immortal()
         previous_x = self.x
         self.previous_x = previous_x
