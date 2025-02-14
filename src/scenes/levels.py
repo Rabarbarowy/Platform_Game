@@ -1,6 +1,6 @@
 import pygame
 from src.objects.objects import VisibleObject, Spike, SpecialBall, Teleporter, Button, Laser, Saw, Castle, Flag, Gate, \
-    FakePlatform, Door, Key
+    FakePlatform, Door, Key, Computer, EndLyrics
 from src.objects.player import Player
 from src.scenes.window import Scene
 
@@ -134,7 +134,6 @@ class LevelChanger(Scene):
     def enter_gate_animation(self, player: Player) -> None:
         player.entering_gate = True
         self.change_level_animation_index -= 1
-        print(self.change_level_animation_index)
         if self.change_level_animation_index == 50:
             self.change_level_animation_index = self.time_index
             player.entering_gate = False
@@ -1018,6 +1017,8 @@ class LevelChanger(Scene):
             Spike(3803, 729, spike2, 3),
             SpecialBall(3300, 1000, green_ball, 'green'),
             SpecialBall(3150, 1000, blue_ball, 'blue'),
+            Computer(1770, 156),
+            EndLyrics(1500, 0),
         ]
         self.teleporters = [
 

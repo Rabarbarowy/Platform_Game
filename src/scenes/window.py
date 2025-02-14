@@ -22,8 +22,8 @@ class Scene:
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.what_background = 'landscape'
         self.old_view = ''
-        # self.view = 'menu'
-        self.view = 'level15'
+        self.view = 'menu'
+        # self.view = 'level15'
 
         self.draw_player = True
         self.objects_to_draw = []
@@ -119,12 +119,6 @@ class Scene:
             self.what_background = 'landscape'
             self.background = Background(self.landscape_image)
             self.background_image = self.background.img
-
-    #
-    def elo(self, key):
-        if key[pygame.K_1]:
-            self.view = 'level9'
-    #
 
 
 class Background(Sprite):

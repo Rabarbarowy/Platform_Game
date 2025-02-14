@@ -291,3 +291,42 @@ class Key(VisibleObject):
             player.start_x = self.x
             player.start_y = self.y
             self.image.set_alpha(0)
+
+
+class Computer(VisibleObject):
+    def __init__(self, x: int, y: int) -> None:
+        super().__init__(x=x, y=y, image=pygame.image.load('src/assets/images/computer/computer.png'), size_index=3, collision=False)
+        self.final_animation1 = pygame.image.load('src/assets/images/computer/final_animation1.png')
+        self.final_animation2 = pygame.image.load('src/assets/images/computer/final_animation2.png')
+        self.start_animation_index = 30
+        self.animation_index = 433
+        self.left_hitbox_reduction = 36
+
+    def action(self, player) -> None:
+        if self.hitbox.colliderect(player.hitbox):
+            player.froze()
+            if self.start_animation_index <= 0:
+                self.final_animation(player)
+            if self.start_animation_index == -1:
+                player.invisible = True
+            else:
+                self.start_animation_index -= 1
+
+    def final_animation(self, player) -> None:
+         if self.animation_index > 0:
+             self.animation_index -= 1
+             self.image = self.transform_size(self.animation(self.final_animation1, (80, 48)), 3)
+         else:
+             self.image = self.transform_size(self.animation(self.final_animation2, (80, 48)), 3)
+             player.finish_last_level = True
+
+
+class EndLyrics(VisibleObject):
+    def __init__(self, x: int, y: int) -> None:
+        super().__init__(x=x, y=y, image=pygame.image.load('src/assets/images/guide_texts/thx_for_play.png'), size_index=3, collision=False)
+
+    def action(self, player) -> None:
+        if player.finish_last_level:
+            self.image.set_alpha(300)
+        else:
+            self.image.set_alpha(0)

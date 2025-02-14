@@ -65,6 +65,7 @@ class Player(Physic, Drawable, SoundManager):
         self.died = False
         self.entering_gate = False
         self.have_key = False
+        self.finish_last_level = False
 
         self.dash_index = 0
         self.cooldown = 25
@@ -280,7 +281,6 @@ class Player(Physic, Drawable, SoundManager):
             self.hanging = False
 
     def repeat(self, key: ScancodeWrapper, player, second_objects) -> None:
-        print(self.x, self.y)
         self.immortal()
         previous_x = self.x
         self.previous_x = previous_x

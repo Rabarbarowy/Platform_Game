@@ -41,9 +41,6 @@ class Game:
 
             self.clock.tick(FPS)
             self.window.show(self.player.direction_index, self.camera.x, self.camera.y)
-            #
-            self.window.elo(self.event.key)
-            #
             self.event.update(self.window.view)
             self.window.repeat(self.player, self.event.clicked, self.event.key)
 
