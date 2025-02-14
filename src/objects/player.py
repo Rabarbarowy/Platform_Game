@@ -281,6 +281,7 @@ class Player(Physic, Drawable, SoundManager):
             self.hanging = False
 
     def repeat(self, key: ScancodeWrapper, player, second_objects) -> None:
+        # print(self.x, self.y)
         self.immortal()
         previous_x = self.x
         self.previous_x = previous_x

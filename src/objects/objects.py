@@ -23,11 +23,17 @@ class Heart(VisibleObject):
     def __init__(self, x: int, y: int) -> None:
         super().__init__(x=x, y=y, image=pygame.image.load('src/assets/images/heart.png'), size_index=2, collision=False)
         self.beating_index = 0
+        self.beating_sound_index = 0
+        self.beating_sound = pygame.mixer.Sound('src/assets/sounds/heart_beat.mp3')
 
     def heart_beating(self, number_of_life_bars):
         self.beating_index += 1
+        self.beating_sound_index += 1
         if number_of_life_bars == 1:
             self.image = self.animation(self.source_image, [64, 64])
+            if self.beating_sound_index >= 35:
+                self.beating_sound.play()
+                self.beating_sound_index = 0
 
         elif self.beating_index <= 36:
             self.image = self.animation(self.source_image, [64, 64])
@@ -74,6 +80,7 @@ class SpecialBall(VisibleObject):
         self.active = True
         self.cooldown = 0
         self.inactive_ball = self.transform_size(pygame.image.load('src/assets/images/grey_ball.png'), 3)
+        self.heal_sound = pygame.mixer.Sound('src/assets/sounds/heal.mp3')
         self.image_to_draw = self.source_image
         self.need_to_active = True
 
@@ -91,6 +98,7 @@ class SpecialBall(VisibleObject):
 
     def red_action(self, player) -> None:
         if player.hp < player.max_hp:
+            self.heal_sound.play()
             player.hp += 1
             self.active = False
 
@@ -207,6 +215,7 @@ class Gate(VisibleObject):
         super().__init__(x=x, y=y, image=pygame.image.load('src/assets/images/castle/gate.png'), size_index=3, collision=False)
         self.opening_gate = self.transform_size(pygame.image.load('src/assets/images/castle/opening_gate.png'), 3)
         self.open_gate_image = self.transform_size(pygame.image.load('src/assets/images/castle/open_gate.png'), 3)
+        self.open_gate_sound = pygame.mixer.Sound('src/assets/sounds/opening_gate.mp3')
         self.next_level = next_level
         self.gate_animation_index = 0
         self.enter_gate = False
@@ -222,6 +231,8 @@ class Gate(VisibleObject):
         next = ''
         if player.hitbox.colliderect(self.hitbox) and self.x - player.x <= 4 and self.x - player.x >= -19:
             if key[pygame.K_e]:
+                if not self.enter_gate:
+                    self.open_gate_sound.play()
                 self.enter_gate = True
                 next = self.next_level
 
@@ -259,10 +270,15 @@ class Door(VisibleObject):
         super().__init__(x=x, y=y, image=pygame.image.load('src/assets/images/closed_door.png'), size_index=3, collision=True)
         self.opened_door = pygame.image.load('src/assets/images/opened_door.png')
         self.opening_door = pygame.image.load('src/assets/images/opening_door.png')
+        self.opening_sound = pygame.mixer.Sound('src/assets/sounds/opening_door.mp3')
         self.door_animation_index = 60
         self.start_animation = False
+        self.start_sound = False
 
     def opening_animation(self) -> None:
+        if not self.start_sound:
+            self.opening_sound.play()
+            self.start_sound = True
         if self.door_animation_index > 0:
             self.door_animation_index -= 1
             self.image = self.transform_size(self.animation(self.opening_door, (38, 48)), 3)
@@ -298,8 +314,10 @@ class Computer(VisibleObject):
         super().__init__(x=x, y=y, image=pygame.image.load('src/assets/images/computer/computer.png'), size_index=3, collision=False)
         self.final_animation1 = pygame.image.load('src/assets/images/computer/final_animation1.png')
         self.final_animation2 = pygame.image.load('src/assets/images/computer/final_animation2.png')
+        self.final_walk_sound = pygame.mixer.Sound('src/assets/sounds/walk.mp3')
         self.start_animation_index = 30
         self.animation_index = 433
+        self.sound_index = 0
         self.left_hitbox_reduction = 36
 
     def action(self, player) -> None:
@@ -316,6 +334,12 @@ class Computer(VisibleObject):
          if self.animation_index > 0:
              self.animation_index -= 1
              self.image = self.transform_size(self.animation(self.final_animation1, (80, 48)), 3)
+             if self.animation_index > 300:
+                 if self.sound_index == 0:
+                     self.sound_index = 120
+                     self.final_walk_sound.play()
+                 self.sound_index -= 1
+
          else:
              self.image = self.transform_size(self.animation(self.final_animation2, (80, 48)), 3)
              player.finish_last_level = True
