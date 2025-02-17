@@ -31,6 +31,8 @@ double_jump_text = pygame.image.load('src/assets/images/guide_texts/double_jump_
 double_dash_text = pygame.image.load('src/assets/images/guide_texts/double_dash_text.png')
 healing_text = pygame.image.load('src/assets/images/guide_texts/healing_text.png')
 XD = pygame.image.load('src/assets/images/guide_texts/XD.png')
+thx_for_play = pygame.image.load('src/assets/images/guide_texts/thx_for_play.png')
+made_by = pygame.image.load('src/assets/images/guide_texts/made_by.png')
 
 aura_sound = pygame.mixer.Sound('src/assets/sounds/teleport_aura.mp3')
 
@@ -1018,7 +1020,8 @@ class LevelChanger(Scene):
             SpecialBall(3300, 1000, green_ball, 'green'),
             SpecialBall(3150, 1000, blue_ball, 'blue'),
             Computer(1770, 156),
-            EndLyrics(1500, 0),
+            EndLyrics(1500, 0, thx_for_play),
+            EndLyrics(1500, 400, made_by),
         ]
         self.teleporters = [
 

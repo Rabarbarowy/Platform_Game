@@ -346,8 +346,8 @@ class Computer(VisibleObject):
 
 
 class EndLyrics(VisibleObject):
-    def __init__(self, x: int, y: int) -> None:
-        super().__init__(x=x, y=y, image=pygame.image.load('src/assets/images/guide_texts/thx_for_play.png'), size_index=3, collision=False)
+    def __init__(self, x: int, y: int, image) -> None:
+        super().__init__(x=x, y=y, image=image, size_index=3, collision=False)
 
     def action(self, player) -> None:
         if player.finish_last_level:
