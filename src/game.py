@@ -41,7 +41,7 @@ class Game:
 
             self.clock.tick(FPS)
             self.window.show(self.player.direction_index, self.camera.x, self.camera.y)
-            self.event.update(self.window.view)
+            self.event.update(self.window.view, self.window.frozen_player)
 
             if not self.event.paused:
                 self.window.repeat(self.player, self.event.clicked, self.event.key)

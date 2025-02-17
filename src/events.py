@@ -8,7 +8,7 @@ class EventManager:
         self.paused = False
         self.clicked = False
 
-    def update(self, scene: str) -> None:
+    def update(self, scene: str, level_changed: bool) -> None:
         for event in pygame.event.get():
             if event.type == QUIT:
                 raise SystemExit
@@ -18,7 +18,7 @@ class EventManager:
             else:
                 self.clicked = False
 
-            if scene != 'menu':
+            if scene != 'menu' and not level_changed:
                 if event.type == pygame.KEYDOWN and self.key[pygame.K_ESCAPE]:
                     self.paused = not self.paused
             else:
