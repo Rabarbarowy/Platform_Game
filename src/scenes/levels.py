@@ -1,6 +1,6 @@
 import pygame
 from src.objects.objects import VisibleObject, Spike, SpecialBall, Teleporter, Button, Laser, Saw, Castle, Flag, Gate, \
-    FakePlatform, Door, Key, Computer, EndLyrics
+    FakePlatform, Door, Key, Computer, EndLyrics, CheckPoint
 from src.objects.player import Player
 from src.scenes.window import Scene
 
@@ -52,6 +52,8 @@ class LevelChanger(Scene):
         self.level_changed = False
         self.frozen_player = False
         self.invisible_player = True
+        self.choose_mode = False
+        self.hardcore_mode = False
 
     def draw_laser(self, camera_x: int, camera_y: int) -> None:
         for element in self.laser_to_draw:
@@ -141,6 +143,16 @@ class LevelChanger(Scene):
             player.entering_gate = False
             self.invisible_player = True
 
+    def change_buttons(self) -> None:
+        if self.choose_mode:
+            self.buttons = [
+                Button(300, 350, pygame.image.load('src/assets/images/buttons/yes.png'), 'yes_to_hardcore'),
+                Button(750, 350, pygame.image.load('src/assets/images/buttons/no.png'), 'no_to_hardcore'),
+            ]
+            self.objects_to_draw = [
+                VisibleObject(250, -200, pygame.image.load('src/assets/images/guide_texts/are_you_hardcore.png'), 3, False),
+            ]
+
     def menu(self) -> None:
         self.draw_player = False
         self.buttons = [
@@ -150,6 +162,7 @@ class LevelChanger(Scene):
         self.objects_to_draw = []
         self.special_objects = []
         self.teleporters = []
+        self.checkpoints = []
 
     def level1(self) -> None:
         self.draw_player = True
@@ -196,6 +209,12 @@ class LevelChanger(Scene):
         self.teleporters = [
             Teleporter(5420, 156, 'level2', aura_sound),
         ]
+        if self.hardcore_mode:
+            self.checkpoints = []
+        else:
+            self.checkpoints = [
+                CheckPoint(1000, 156),
+            ]
         self.buttons = []
 
     def level2(self) -> None:
@@ -227,6 +246,12 @@ class LevelChanger(Scene):
         self.teleporters = [
             Teleporter(3220, 156, 'level3', aura_sound),
         ]
+        if self.hardcore_mode:
+            self.checkpoints = []
+        else:
+            self.checkpoints = [
+
+            ]
         self.buttons = []
 
     def level3(self) -> None:
@@ -288,6 +313,12 @@ class LevelChanger(Scene):
         self.teleporters = [
             Teleporter(4720, 606, 'level4', aura_sound),
         ]
+        if self.hardcore_mode:
+            self.checkpoints = []
+        else:
+            self.checkpoints = [
+
+            ]
         self.buttons = []
 
     def level4(self) -> None:
@@ -346,6 +377,12 @@ class LevelChanger(Scene):
         self.teleporters = [
             Teleporter(5820, 956, 'level5', aura_sound),
         ]
+        if self.hardcore_mode:
+            self.checkpoints = []
+        else:
+            self.checkpoints = [
+
+            ]
         self.buttons = []
 
     def level5(self) -> None:
@@ -386,6 +423,12 @@ class LevelChanger(Scene):
         self.teleporters = [
             Teleporter(4120, 156, 'level6', aura_sound),
         ]
+        if self.hardcore_mode:
+            self.checkpoints = []
+        else:
+            self.checkpoints = [
+
+            ]
         self.buttons = []
 
     def level6(self) -> None:
@@ -440,6 +483,12 @@ class LevelChanger(Scene):
         self.teleporters = [
             Teleporter(-170, 856, 'level7', aura_sound),
         ]
+        if self.hardcore_mode:
+            self.checkpoints = []
+        else:
+            self.checkpoints = [
+
+            ]
         self.buttons = []
 
     def level7(self) -> None:
@@ -495,6 +544,12 @@ class LevelChanger(Scene):
         self.teleporters = [
             Teleporter(1620, -2444, 'level8', aura_sound),
         ]
+        if self.hardcore_mode:
+            self.checkpoints = []
+        else:
+            self.checkpoints = [
+
+            ]
         self.buttons = []
 
     def level8(self):
@@ -562,6 +617,12 @@ class LevelChanger(Scene):
         self.teleporters = [
             Teleporter(2320, -1144, 'level9', aura_sound),
         ]
+        if self.hardcore_mode:
+            self.checkpoints = []
+        else:
+            self.checkpoints = [
+
+            ]
         self.buttons = []
 
     def level9(self) -> None:
@@ -618,6 +679,12 @@ class LevelChanger(Scene):
         self.teleporters = [
             Gate(2886, -2030, 'level10')
         ]
+        if self.hardcore_mode:
+            self.checkpoints = []
+        else:
+            self.checkpoints = [
+
+            ]
         self.buttons = []
 
     def level10(self) -> None:
@@ -692,6 +759,12 @@ class LevelChanger(Scene):
         self.teleporters = [
             Teleporter(6500, -644, 'level11', aura_sound),
         ]
+        if self.hardcore_mode:
+            self.checkpoints = []
+        else:
+            self.checkpoints = [
+
+            ]
         self.buttons = []
 
     def level11(self) -> None:
@@ -748,6 +821,12 @@ class LevelChanger(Scene):
         self.teleporters = [
             Teleporter(5020, -144, 'level12', aura_sound),
         ]
+        if self.hardcore_mode:
+            self.checkpoints = []
+        else:
+            self.checkpoints = [
+
+            ]
         self.buttons = []
 
     def level12(self) -> None:
@@ -809,6 +888,12 @@ class LevelChanger(Scene):
         self.teleporters = [
             Teleporter(1220, -1444, 'level13', aura_sound),
         ]
+        if self.hardcore_mode:
+            self.checkpoints = []
+        else:
+            self.checkpoints = [
+
+            ]
         self.buttons = []
 
     def level13(self) -> None:
@@ -871,6 +956,12 @@ class LevelChanger(Scene):
         self.teleporters = [
             Teleporter(-2070, -1744, 'level14', aura_sound),
         ]
+        if self.hardcore_mode:
+            self.checkpoints = []
+        else:
+            self.checkpoints = [
+
+            ]
         self.buttons = []
 
     def level14(self) -> None:
@@ -957,6 +1048,12 @@ class LevelChanger(Scene):
         self.teleporters = [
             Teleporter(3040, -1924, 'level15', aura_sound),
         ]
+        if self.hardcore_mode:
+            self.checkpoints = []
+        else:
+            self.checkpoints = [
+
+            ]
         self.buttons = []
 
     def level15(self) -> None:
@@ -1023,7 +1120,11 @@ class LevelChanger(Scene):
             EndLyrics(1500, 0, thx_for_play),
             EndLyrics(1500, 400, made_by),
         ]
-        self.teleporters = [
+        self.teleporters = []
+        if self.hardcore_mode:
+            self.checkpoints = []
+        else:
+            self.checkpoints = [
 
-        ]
+            ]
         self.buttons = []

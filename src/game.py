@@ -76,4 +76,6 @@ class Game:
                     self.event.paused = False
 
             self.window.draw_buttons()
+            self.window.change_buttons()
+
             pygame.display.update()

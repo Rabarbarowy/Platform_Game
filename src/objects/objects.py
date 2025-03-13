@@ -354,3 +354,18 @@ class EndLyrics(VisibleObject):
             self.image.set_alpha(300)
         else:
             self.image.set_alpha(0)
+
+
+class CheckPoint(VisibleObject):
+    def __init__(self, x: int, y: int) -> None:
+        super().__init__(x=x, y=y, image=pygame.image.load('src/assets/images/checkpoint.png'), size_index=3, collision=False)
+        self.working_checkpoint = self.transform_size(pygame.image.load('src/assets/images/working_checkpoint.png'), 3)
+        self.active = False
+
+    def action(self, player) -> None:
+        if self.hitbox.colliderect(player.hitbox):
+            self.active = True
+
+        if self.active:
+            self.image = self.animation(self.working_checkpoint, (114, 144))
+            player.start_x, player.start_y = self.x, self.y

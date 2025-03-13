@@ -29,6 +29,7 @@ class Scene:
         self.objects_to_draw = []
         self.special_objects = []
         self.teleporters = []
+        self.checkpoints = []
         self.buttons = []
         self.pause_buttons = [
             Button(430, 200, pygame.image.load('src/assets/images/buttons/resume.png'), 'resume'),
@@ -36,6 +37,8 @@ class Scene:
         ]
 
         self.pause_index = False
+        self.choose_mode = False
+        self.hardcore_mode = False
 
     def show(self, direction_index: int, camera_x: int, camera_y: int) -> None:
         self.screen.fill(self.background_color)
@@ -52,6 +55,8 @@ class Scene:
             element.draw(self.screen, camera_x, camera_y, False)
         for element in self.teleporters:
             element.draw(self.screen, camera_x, camera_y, False)
+        for element in self.checkpoints:
+            element.draw(self.screen, camera_x, camera_y, False)
 
     def darken(self, dimensions: tuple, coordinates: tuple) -> None:
         obfuscate = pygame.Surface(dimensions)
@@ -65,6 +70,8 @@ class Scene:
             changed_level = element.action(player, key)
             if changed_level != '':
                 self.view = element.next_level
+        for element in self.checkpoints:
+            element.action(player)
 
         if player.died:
             for element in self.special_objects:
@@ -79,9 +86,17 @@ class Scene:
                 self.darken((button.width, button.height), (button.x, button.y))
             if button.pressed:
                 if button.name == 'play':
-                    self.view = 'level1'
+                    self.choose_mode = True
                 elif button.name == 'exit':
                     raise SystemExit
+                elif button.name == 'yes_to_hardcore':
+                    self.choose_mode = False
+                    self.hardcore_mode = True
+                    self.view = 'level1'
+                elif button.name == 'no_to_hardcore':
+                    self.choose_mode = False
+                    self.hardcore_mode = False
+                    self.view = 'level1'
 
         self.change_background()
 
@@ -107,7 +122,7 @@ class Scene:
                 button.pressed = False
 
     def change_background(self) -> None:
-        if len(self.view) > 6:
+        if len(self.view) == 7:
             if self.change_background_index == 0:
                 self.background = Background(self.castle_interior_image)
                 self.background_image = self.background.img
