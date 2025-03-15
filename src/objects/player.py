@@ -280,6 +280,14 @@ class Player(Physic, Drawable, SoundManager):
         else:
             self.hanging = False
 
+    def set_amount_of_life(self, hardcore_mode: bool) -> None:
+        if hardcore_mode:
+            self.max_hp = 4
+            self.hp = self.max_hp
+        else:
+            self.max_hp = 5
+            self.hp = self.max_hp
+
     def repeat(self, key: ScancodeWrapper, player, second_objects) -> None:
         # print(self.x, self.y)
         self.immortal()

@@ -29,6 +29,7 @@ class Game:
                     if self.window.reset_player_stats:
                         self.camera.reset_coordinates(INITIAL_COORDINATES)
                         self.player.reset_statistic()
+                        self.player.set_amount_of_life(self.window.hardcore_mode)
                 self.window.show_up_in_new_level(self.player.x, self.player.y)
             if self.window.frozen_player:
                 self.player.froze()
