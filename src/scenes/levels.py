@@ -77,7 +77,7 @@ class LevelChanger(Scene):
         if self.old_view != self.view:
             self.frozen_player = True
             self.reset_player_stats = False
-            if not self.view == 'level10':
+            if not self.view == 'level10' or self.old_view == 'menu':
                 if 'level' in self.old_view and 'level' in self.view:
                     self.x_for_laser = self.teleporters[0].y - 456
                     self.change_level_animation(player.x)
@@ -152,6 +152,27 @@ class LevelChanger(Scene):
             self.objects_to_draw = [
                 VisibleObject(250, -200, pygame.image.load('src/assets/images/guide_texts/are_you_hardcore.png'), 3, False),
             ]
+        if self.choose_level:
+            self.buttons = [
+                Button(100, 100, pygame.image.load('src/assets/images/buttons/level1.png'), 'level1'),
+                Button(100, 200, pygame.image.load('src/assets/images/buttons/level2.png'), 'level2'),
+                Button(100, 300, pygame.image.load('src/assets/images/buttons/level3.png'), 'level3'),
+                Button(100, 400, pygame.image.load('src/assets/images/buttons/level4.png'), 'level4'),
+                Button(100, 500, pygame.image.load('src/assets/images/buttons/level5.png'), 'level5'),
+
+                Button(450, 100, pygame.image.load('src/assets/images/buttons/level6.png'), 'level6'),
+                Button(450, 200, pygame.image.load('src/assets/images/buttons/level7.png'), 'level7'),
+                Button(450, 300, pygame.image.load('src/assets/images/buttons/level8.png'), 'level8'),
+                Button(450, 400, pygame.image.load('src/assets/images/buttons/level9.png'), 'level9'),
+                Button(450, 500, pygame.image.load('src/assets/images/buttons/level10.png'), 'level10'),
+
+                Button(800, 100, pygame.image.load('src/assets/images/buttons/level11.png'), 'level11'),
+                Button(800, 200, pygame.image.load('src/assets/images/buttons/level12.png'), 'level12'),
+                Button(800, 300, pygame.image.load('src/assets/images/buttons/level13.png'), 'level13'),
+                Button(800, 400, pygame.image.load('src/assets/images/buttons/level14.png'), 'level14'),
+                Button(800, 500, pygame.image.load('src/assets/images/buttons/level15.png'), 'level15'),
+            ]
+            self.objects_to_draw = []
 
     def menu(self) -> None:
         self.draw_player = False

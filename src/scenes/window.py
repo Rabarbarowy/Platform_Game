@@ -39,6 +39,7 @@ class Scene:
         self.pause_index = False
         self.choose_mode = False
         self.hardcore_mode = False
+        self.choose_level = False
 
     def show(self, direction_index: int, camera_x: int, camera_y: int) -> None:
         self.screen.fill(self.background_color)
@@ -64,6 +65,7 @@ class Scene:
         self.screen.blit(obfuscate, coordinates)
 
     def repeat(self, player: Player, clicked: bool, key: ScancodeWrapper) -> None:
+        # print(self.view, self.old_view)
         for element in self.special_objects:
             element.action(player)
         for element in self.teleporters:
@@ -92,11 +94,56 @@ class Scene:
                 elif button.name == 'yes_to_hardcore':
                     self.choose_mode = False
                     self.hardcore_mode = True
-                    self.view = 'level1'
+                    self.choose_level = True
                 elif button.name == 'no_to_hardcore':
                     self.choose_mode = False
                     self.hardcore_mode = False
+                    self.choose_level = True
+                elif button.name == 'level1':
                     self.view = 'level1'
+                    self.choose_level = False
+                elif button.name == 'level2':
+                    self.view = 'level2'
+                    self.choose_level = False
+                elif button.name == 'level3':
+                    self.view = 'level3'
+                    self.choose_level = False
+                elif button.name == 'level4':
+                    self.view = 'level4'
+                    self.choose_level = False
+                elif button.name == 'level5':
+                    self.view = 'level5'
+                    self.choose_level = False
+                elif button.name == 'level6':
+                    self.view = 'level6'
+                    self.choose_level = False
+                elif button.name == 'level7':
+                    self.view = 'level7'
+                    self.choose_level = False
+                elif button.name == 'level8':
+                    self.view = 'level8'
+                    self.choose_level = False
+                elif button.name == 'level9':
+                    self.view = 'level9'
+                    self.choose_level = False
+                elif button.name == 'level10':
+                    self.view = 'level10'
+                    self.choose_level = False
+                elif button.name == 'level11':
+                    self.view = 'level11'
+                    self.choose_level = False
+                elif button.name == 'level12':
+                    self.view = 'level12'
+                    self.choose_level = False
+                elif button.name == 'level13':
+                    self.view = 'level13'
+                    self.choose_level = False
+                elif button.name == 'level14':
+                    self.view = 'level14'
+                    self.choose_level = False
+                elif button.name == 'level15':
+                    self.view = 'level15'
+                    self.choose_level = False
 
         self.change_background()
 
@@ -122,7 +169,13 @@ class Scene:
                 button.pressed = False
 
     def change_background(self) -> None:
+        # print(self.view, self.old_view)
         if len(self.view) == 7:
+            if self.old_view == 'menu':
+                self.background = Background(self.castle_interior_image)
+                self.background_image = self.background.img
+                self.change_background_index = 110
+                self.what_background = 'castle'
             if self.change_background_index == 0:
                 self.background = Background(self.castle_interior_image)
                 self.background_image = self.background.img
