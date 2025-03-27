@@ -33,6 +33,7 @@ healing_text = pygame.image.load('src/assets/images/guide_texts/healing_text.png
 XD = pygame.image.load('src/assets/images/guide_texts/XD.png')
 thx_for_play = pygame.image.load('src/assets/images/guide_texts/thx_for_play.png')
 made_by = pygame.image.load('src/assets/images/guide_texts/made_by.png')
+check_point = pygame.image.load('src/assets/images/guide_texts/checkpoint.png')
 
 aura_sound = pygame.mixer.Sound('src/assets/sounds/teleport_aura.mp3')
 
@@ -234,7 +235,7 @@ class LevelChanger(Scene):
             self.checkpoints = []
         else:
             self.checkpoints = [
-                CheckPoint(1000, 156),
+
             ]
         self.buttons = []
 
@@ -402,8 +403,9 @@ class LevelChanger(Scene):
             self.checkpoints = []
         else:
             self.checkpoints = [
-
+                CheckPoint(3240, 956),
             ]
+            self.objects_to_draw.append(VisibleObject(3150, 700, check_point, 3, False))
         self.buttons = []
 
     def level5(self) -> None:
@@ -448,7 +450,7 @@ class LevelChanger(Scene):
             self.checkpoints = []
         else:
             self.checkpoints = [
-
+                CheckPoint(1590, -824),
             ]
         self.buttons = []
 
@@ -505,10 +507,10 @@ class LevelChanger(Scene):
             Teleporter(-170, 856, 'level7', aura_sound),
         ]
         if self.hardcore_mode:
-            self.checkpoints = []
+            self.checkpoints = [CheckPoint(4935, 56),]
         else:
             self.checkpoints = [
-
+                CheckPoint(4935, 56),
             ]
         self.buttons = []
 
@@ -527,7 +529,7 @@ class LevelChanger(Scene):
             VisibleObject(200, -1100, platform, 3, True),
             # VisibleObject(8, -1100, platform, 3, False),
             VisibleObject(-184, -1100, platform, 3, True),
-            VisibleObject(-184, -1310, platform2, 3, True),
+            VisibleObject(-210, -1310, platform2, 3, True),
             VisibleObject(0, -1400, platform3, 3, True),
             VisibleObject(150, -1450, platform, 3, True),
             VisibleObject(700, -1550, platform2, 3, True),
@@ -569,7 +571,7 @@ class LevelChanger(Scene):
             self.checkpoints = []
         else:
             self.checkpoints = [
-
+                CheckPoint(-150, -1244),
             ]
         self.buttons = []
 
@@ -642,7 +644,7 @@ class LevelChanger(Scene):
             self.checkpoints = []
         else:
             self.checkpoints = [
-
+                CheckPoint(1300, -444),
             ]
         self.buttons = []
 
@@ -704,7 +706,7 @@ class LevelChanger(Scene):
             self.checkpoints = []
         else:
             self.checkpoints = [
-
+                CheckPoint(1440, 6),
             ]
         self.buttons = []
 
@@ -784,7 +786,7 @@ class LevelChanger(Scene):
             self.checkpoints = []
         else:
             self.checkpoints = [
-
+                CheckPoint(1835, -264),
             ]
         self.buttons = []
 
@@ -846,7 +848,7 @@ class LevelChanger(Scene):
             self.checkpoints = []
         else:
             self.checkpoints = [
-
+                CheckPoint(2330, -144),
             ]
         self.buttons = []
 
@@ -913,7 +915,7 @@ class LevelChanger(Scene):
             self.checkpoints = []
         else:
             self.checkpoints = [
-
+                CheckPoint(1990, -544),
             ]
         self.buttons = []
 
@@ -963,7 +965,7 @@ class LevelChanger(Scene):
             SpecialBall(-1400, 300, red_ball, 'red'),
             Spike(-1297, -121, spike2, 3),
             Spike(-1147, -211, spike2, 3),
-            Spike(-1700, -171, spike, 3),
+            Spike(-1700, -171, spike2, 3),
             Spike(-1970, -171, spike, 3),
             Spike(-2240, -171, spike, 3),
             Spike(-2547, -371, spike2, 3),
@@ -981,7 +983,7 @@ class LevelChanger(Scene):
             self.checkpoints = []
         else:
             self.checkpoints = [
-
+                CheckPoint(-1535, -294),
             ]
         self.buttons = []
 
@@ -1073,7 +1075,7 @@ class LevelChanger(Scene):
             self.checkpoints = []
         else:
             self.checkpoints = [
-
+                CheckPoint(3700, 6),
             ]
         self.buttons = []
 
@@ -1146,6 +1148,6 @@ class LevelChanger(Scene):
             self.checkpoints = []
         else:
             self.checkpoints = [
-
+                CheckPoint(2335, 756),
             ]
         self.buttons = []
