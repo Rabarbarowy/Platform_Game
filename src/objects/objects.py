@@ -364,8 +364,8 @@ class CheckPoint(VisibleObject):
 
     def action(self, player) -> None:
         if self.hitbox.colliderect(player.hitbox):
+            player.start_x, player.start_y = self.x, self.y
             self.active = True
 
         if self.active:
             self.image = self.animation(self.working_checkpoint, (114, 144))
-            player.start_x, player.start_y = self.x, self.y
