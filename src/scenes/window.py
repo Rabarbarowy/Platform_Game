@@ -41,6 +41,8 @@ class Scene:
         self.hardcore_mode = False
         self.choose_level = False
 
+        self.button_cooldown = 0
+
     def show(self, direction_index: int, camera_x: int, camera_y: int) -> None:
         self.screen.fill(self.background_color)
         if direction_index + 250 + WINDOW_WIDTH >= self.background.width:
@@ -86,7 +88,8 @@ class Scene:
             button.check_action(clicked)
             if button.hovered:
                 self.darken((button.width, button.height), (button.x, button.y))
-            if button.pressed:
+            if button.pressed and self.button_cooldown == 0:
+                self.button_cooldown = 10
                 if button.name == 'play':
                     self.choose_mode = True
                 elif button.name == 'exit':
@@ -145,6 +148,8 @@ class Scene:
                     self.view = 'level15'
                     self.choose_level = False
 
+        if not self.button_cooldown == 0:
+            self.button_cooldown -= 1
         self.change_background()
 
     def draw_buttons(self) -> None:
