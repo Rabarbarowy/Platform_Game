@@ -12,7 +12,7 @@ Platform Game is a 2D platformer in which the player must navigate to teleporter
 - Two difficulty modes: hardcore and normal
 - Multiple environments, including a castle area introduced mid-game 
 - Checkpoints (available in non hardcore mode)
-- Special balls that help the player
+- Special balls that help the player  
 ![Gameplay](src/assets/balls_explanation.png)
 
 ## Controls
