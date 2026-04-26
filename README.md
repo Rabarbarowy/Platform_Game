@@ -13,6 +13,7 @@ Platform Game is a 2D platformer in which the player must navigate to teleporter
 - Multiple environments, including a castle area introduced mid-game 
 - Checkpoints (available in non hardcore mode)
 - Special balls that help the player  
+
 ![Gameplay](src/assets/balls_explanation.png)
 
 ## Controls
@@ -40,6 +41,7 @@ python main.py
 
 ## How to play?
 As the player, your goal is to reach the final room. To do this, you must progress through 15 levels using teleports located in levels, find a key to open the final door, and enter the ending area.
+
 ![Gameplay](src/assets/Screenshot_of_entering_the_castle.png)
 After entering the castle, the map changes to a new environment. To progress further, you must find teleporters that take you to the next level.
 
