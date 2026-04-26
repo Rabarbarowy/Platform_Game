@@ -42,7 +42,7 @@ python main.py
 ## How to play?
 As the player, your goal is to reach the final room. To do this, you must progress through 15 levels using teleports located in levels, find a key to open the final door, and enter the ending area.
 
-![Gameplay](src/assets/Screenshot_of_entering_the_castle.png)
+![Gameplay](src/assets/Screenshot_of_entering_the_castle.png)  
 After entering the castle, the map changes to a new environment. To progress further, you must find teleporters that take you to the next level.
 
 ## Technologies used
